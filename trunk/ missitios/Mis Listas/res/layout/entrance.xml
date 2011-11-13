@@ -184,7 +184,7 @@
     	android:gravity="center"
     	android:textStyle="bold"
     	android:textColor="#000000"
-    	android:text="Diseño de layouts (c) 2011. Ignacio Iglesias"
+    	android:text="PFC Eduardo Castella 2011"
     />
     
     <TextView  
@@ -194,7 +194,7 @@
     	android:gravity="center"
     	android:textColor="#000000"    	
     	android:textStyle="bold"
-    	android:text="ignacionario.blogspot.com"
+    	android:text="www.mislistas.com"
     />
     
 </LinearLayout>
