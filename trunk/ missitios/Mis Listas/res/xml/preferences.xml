@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen
+        xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <PreferenceCategory
+            android:title="@string/title_prf_user">
+            
+        <EditTextPreference
+                android:key="edittext_username"
+                android:title="@string/title_prf_username"
+                android:summary="@string/summary_prf_username"
+                android:dialogTitle="@string/dialog_prf_username" />
+
+                
+        <EditTextPreference
+                android:key="edittext_pass"
+                android:password="true"
+                android:title="@string/title_prf_pass"
+                android:summary="@string/summary_prf_pass"
+                android:dialogTitle="@string/dialog_prf_pass" />
+
+        <PreferenceScreen
+                android:title="@string/title_prf_verifyuser"
+                android:summary="@string/summary_prf_verifyuser">
+
+            <intent
+			    android:action="android.intent.action.MAIN"
+			    android:targetPackage="com.geekool.dondereciclar"
+			    android:targetClass="com.geekool.dondereciclar.VerifyUser" /> 
+
+        </PreferenceScreen>
+                
+        <PreferenceScreen
+                android:title="@string/title_prf_newuser"
+                android:summary="@string/summary_prf_newuser">
+
+            <intent android:action="android.intent.action.VIEW"
+                    android:data="http://www.dondereciclar.com/register.php" />
+
+        </PreferenceScreen>
+
+
+            
+    </PreferenceCategory>
+    
+    <PreferenceCategory android:title="@string/title_prf_category">
+			<CheckBoxPreference
+                android:key="checkbox_PuntosLimpios"
+                android:title="@string/title_prf_PuntosLimpios"
+                android:summary="@string/summary_prf_PuntosLimpios"
+                android:defaultValue="true"/>
+                <CheckBoxPreference
+                android:key="checkbox_Pilas"
+                android:title="@string/title_prf_Pilas"
+                android:summary="@string/summary_prf_Pilas"
+                android:defaultValue="false"/>
+                <CheckBoxPreference
+                android:key="checkbox_DenunciaAmbiental"
+                android:title="@string/title_prf_DenunciaAmbiental"
+                android:summary="@string/summary_prf_DenunciaAmbiental"
+                android:defaultValue="false"/>
+                <CheckBoxPreference
+                android:key="checkbox_Ropa"
+                android:title="@string/title_prf_Ropa"
+                android:summary="@string/summary_prf_Ropa"
+                android:defaultValue="false"/>
+                <CheckBoxPreference
+                android:key="checkbox_Otros"
+                android:title="@string/title_prf_Otros"
+                android:summary="@string/summary_prf_Otros"
+                android:defaultValue="false"/>
+		</PreferenceCategory>
+    
+</PreferenceScreen>

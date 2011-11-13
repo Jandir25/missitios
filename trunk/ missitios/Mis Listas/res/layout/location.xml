@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+      android:orientation="vertical" android:layout_width="fill_parent"
+    	android:layout_height="fill_parent">
+    	    	
+	<LinearLayout android:id="@+id/LinearLayout01" android:layout_height="wrap_content" android:layout_width="fill_parent" android:background="#d3d5d7">
+		<ImageView android:layout_width="wrap_content" android:layout_height="wrap_content" android:id="@+id/ico_loc" android:src="@drawable/ico_2_on"></ImageView>
+		<TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Título de esto" android:textSize="18px" android:textColor="#000000" android:padding="10px" android:id="@+id/loc_title"></TextView>
+	
+	</LinearLayout>
+
+	<LinearLayout android:orientation="vertical"
+		android:paddingTop="5px"
+		android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_weight="1">
+       
+	    <ListView android:id="@+id/android:list"
+	        android:layout_width="fill_parent"
+	        android:layout_height="fill_parent"
+	         ></ListView>
+	  	<TextView 
+	  		android:id="@+id/android:empty"
+	  		android:gravity="center"
+	  		android:textSize="16px"
+	        android:layout_width="fill_parent"
+	        android:layout_height="fill_parent"
+	        android:textColor="#ffffff" 
+	        android:text="@string/no_comments"/>
+	        
+	</LinearLayout>
+	
+	<LinearLayout android:id="@+id/LinearLayout02" android:layout_width="fill_parent" android:background="#cccccc" android:padding="5px" android:gravity="center" android:layout_height="75px">
+	
+		<LinearLayout android:id="@+id/LinearLayout03" android:layout_width="wrap_content" android:layout_height="wrap_content" android:orientation="vertical" android:gravity="center" android:layout_weight="1">
+			<ImageView android:id="@+id/ico_goto" android:layout_width="wrap_content" android:layout_height="wrap_content" android:src="@android:drawable/ic_menu_directions"></ImageView>
+			<TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:textColor="#666666" android:text="@string/go_to"></TextView>
+		</LinearLayout>
+		
+		<LinearLayout android:id="@+id/LinearLayout04" android:layout_width="wrap_content" android:layout_height="wrap_content" android:orientation="vertical" android:gravity="center" android:layout_weight="1">
+			<ImageView android:id="@+id/ico_share" android:layout_width="wrap_content" android:layout_height="wrap_content" android:src="@android:drawable/ic_menu_share"></ImageView>
+			<TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:textColor="#666666" android:text="@string/share"></TextView>
+		</LinearLayout>
+		
+		<LinearLayout android:layout_width="wrap_content" android:layout_height="wrap_content" android:orientation="vertical" android:gravity="center" android:layout_weight="1" android:id="@+id/ll_more_actions" android:visibility="gone">
+			<ImageView android:layout_width="wrap_content" android:layout_height="wrap_content" android:src="@android:drawable/ic_menu_more" android:id="@+id/ico_more_actions"></ImageView>
+			<TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:textColor="#666666" android:text="@string/actions"></TextView>
+		</LinearLayout>
+	
+	</LinearLayout>
+	
+
+</LinearLayout>

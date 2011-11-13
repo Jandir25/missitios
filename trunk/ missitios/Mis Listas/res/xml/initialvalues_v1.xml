@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<values>
+  <row table="tbl_lists" id="1">
+    <field name="title" value="Lista Edu" />
+    <field name="creator" value="1" />
+    <field name="fecha" value="12/05/2011" />
+  </row>
+    <row table="tbl_lists" id="2">
+    <field name="title" value="Lista Cajeros" />
+    <field name="creator" value="1" />
+    <field name="fecha" value="12/05/2011" />
+  </row>
+  <row table="tbl_types" id="1">
+    <field name="name" value="Sin Categoria" />
+    <field name="description" value="Sin categoría" />
+    <field name="icon" value="mark1_on" />
+  </row>
+
+  <row table="tbl_types" id="2">
+    <field name="name" value="Restaurantes" />
+    <field name="description" value="Restaurantes" />
+    <field name="icon" value="mark2_on" />
+  </row>
+
+  <row table="tbl_types" id="3">
+    <field name="name" value="Tiendas" />
+    <field name="description" value="Tiendas" />
+    <field name="icon" value="mark3_on" />
+  </row>
+    <row table="tbl_types" id="4">
+    <field name="name" value="Cajeros Santander" />
+    <field name="description" value="Cajeros Santander" />
+    <field name="icon" value="mark3_on" />
+  </row>
+  
+   <row table="tbl_users" id="1">
+    <field name="alias" value="ecastella" />
+    <field name="name" value="Eduardo Castella" />
+    <field name="email" value="educastella@gmail.com" />
+   </row>
+  
+   <row table="tbl_places" id="1">
+    <field name="name" value="Tomas y Sebi" />
+    <field name="latitude" value="40.488660" />
+    <field name="longitude" value="-3.669160" />
+    <field name="description" value="prueba" />
+    <field name="address" value="calle oña 2" />
+    <field name="puntuation" value="2.5" />		
+    <field name="type_id" value="2" />
+    <field name="list_id" value="1" />
+    <field name="user_id" value="1" />  
+   </row>
+   
+   <row table="tbl_places" id="2">
+    <field name="name" value="El Empanao" />
+    <field name="latitude" value="40.488660" />
+    <field name="longitude" value="-3.669349" />
+    <field name="description" value="prueba" />
+    <field name="address" value="oña 23" />
+    <field name="puntuation" value="1.5" />		
+    <field name="type_id" value="2" />
+    <field name="list_id" value="1" />
+    <field name="user_id" value="1" />  
+   </row>
+      <row table="tbl_places" id="3">
+    <field name="name" value="El ocho" />
+    <field name="latitude" value="40.488065" />
+    <field name="longitude" value="-3.671573" />
+    <field name="description" value="prueba" />
+    <field name="address" value="Manoteras" />
+    <field name="puntuation" value="1.5" />		
+    <field name="type_id" value="2" />
+    <field name="list_id" value="1" />
+    <field name="user_id" value="1" />  
+   </row>
+         <row table="tbl_places" id="4">
+    <field name="name" value="Punto de Encuentro" />
+    <field name="latitude" value="40.4887954" />
+    <field name="longitude" value="-3.667269" />
+    <field name="description" value="prueba" />
+    <field name="address" value="Manoteras" />
+    <field name="puntuation" value="1.5" />		
+    <field name="type_id" value="2" />
+    <field name="list_id" value="1" />
+    <field name="user_id" value="1" />  
+   </row>
+   
+  
+  </values>  

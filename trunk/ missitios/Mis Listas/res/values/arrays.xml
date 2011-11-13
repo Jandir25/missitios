@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="select_type_location">
+        <item>Ubicación actual</item>
+        <item>Pulsar en el mapa</item>
+    </string-array>
+    
+    <string-array name="select_type_points">
+        <item>Punto limpio</item>
+        <item>Reciclaje de pilas</item>
+        <item>Denuncia ambiental</item>
+        <item>Ropa</item>
+        <item>Otro</item>
+    </string-array>
+    
+    <string-array name="select_action_photo">
+        <item>Ver imagen</item>
+        <item>Borrar</item>
+    </string-array>
+    
+    <string-array name="select_action_user_point">
+        <item>Editar</item>
+        <item>Borrar</item>
+    </string-array>
+    
+</resources>

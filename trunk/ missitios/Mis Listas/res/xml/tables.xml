@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<database name="miLista3" version="1">  
+  <table name="tbl_lists" to-string="%title%">
+    <field name="title" obligatory="true" type="text" size="128"/>
+    <field name="creator" type="foreign-key" foreign-table="tbl_users" />
+    <field name="fecha" obligatory="true" type="text"/>
+  </table>
+  
+  <table name="tbl_places" to-string="%name%">
+    <field name="name" obligatory="true" type="text" size="128"/>
+    <field name="latitude" obligatory="true" type="double"/>
+    <field name="longitude" obligatory="true" type="double"/>
+    <field name="description" obligatory="true" type="text" />
+    <field name="address" obligatory="true" type="text"/>
+    <field name="puntuation" obligatory="true" type="float"/>		
+    <field name="type_id" type="foreign-key" foreign-table="tbl_types" />
+    <field name="list_id" type="foreign-key" foreign-table="tbl_lists" />
+    <field name="user_id" type="foreign-key" foreign-table="tbl_users" />    
+  </table>
+  
+  <table name="tbl_types" to-string="%name%">
+    <field name="name" obligatory="true" type="text" size="128"/>
+    <field name="description" obligatory="true" type="text"/>
+    <field name="icon" obligatory="true" type="drawable-identifier"/>
+  </table>
+  
+  <table name="tbl_users" to-string="%alias%">
+    <field name="alias" obligatory="true" type="text" size="128"/>
+    <field name="name" obligatory="true" type="text"/>
+    <field name="email" obligatory="true" type="text"/>
+  </table>
+  
+ </database>
