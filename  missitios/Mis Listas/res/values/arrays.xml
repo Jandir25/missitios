@@ -22,5 +22,16 @@
         <item>Editar</item>
         <item>Borrar</item>
     </string-array>
-    
+    <string-array name="select_list_actions">
+        <item>Mostrar</item>
+        <item>Editar</item>
+        <item>Compartir</item>
+        <item>Ver Elementos</item>
+    </string-array>
+       <string-array name="filter_date">
+        <item>Today</item>
+        <item>3 days ago</item>
+        <item>The last week</item>
+        <item>The last month</item>
+    </string-array>
 </resources>

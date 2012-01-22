@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
-<database name="miLista3" version="1">  
+<database name="miListaPFC" version="2">  
   <table name="tbl_lists" to-string="%title%">
     <field name="title" obligatory="true" type="text" size="128"/>
     <field name="creator" type="foreign-key" foreign-table="tbl_users" />

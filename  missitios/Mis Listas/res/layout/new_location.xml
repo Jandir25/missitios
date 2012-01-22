@@ -10,12 +10,15 @@
 		android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_weight="1"> 	   
 		 
 		<LinearLayout android:id="@+id/LinearLayout01" android:layout_height="wrap_content" android:orientation="vertical" android:layout_weight="1" android:layout_width="fill_parent" android:padding="5px"><LinearLayout android:id="@+id/LinearLayout07" android:layout_height="wrap_content" android:layout_width="fill_parent" android:layout_marginRight="5px"><LinearLayout android:id="@+id/LinearLayout06" android:layout_width="wrap_content" android:layout_height="wrap_content" android:orientation="vertical" android:layout_weight="1"><TextView android:layout_height="wrap_content" android:textSize="18px" android:layout_width="fill_parent" android:textColor="#89c1f1" android:layout_marginLeft="5px" android:layout_marginRight="5px" android:layout_marginTop="5px" android:text="@string/info_new_poi"></TextView><TextView android:layout_height="wrap_content" android:layout_width="fill_parent" android:text="@string/address" android:textSize="15px" android:textColor="#eeeeee" android:padding="5px" android:layout_marginTop="10px"></TextView>
-</LinearLayout><ImageView android:layout_width="wrap_content" android:layout_height="wrap_content" android:src="@drawable/alert_dialog_icon" android:paddingBottom="8px" android:paddingLeft="3px" android:paddingRight="3px" android:paddingTop="3px" android:background="@drawable/bg_polaroid" android:visibility="gone" android:id="@+id/photo"></ImageView>
 </LinearLayout>
-			
-			
+<ImageView android:layout_width="wrap_content" android:layout_height="wrap_content" android:src="@drawable/alert_dialog_icon" android:paddingBottom="8px" android:paddingLeft="3px" android:paddingRight="3px" android:paddingTop="3px" android:background="@drawable/bg_polaroid" android:visibility="gone" android:id="@+id/photo"></ImageView>
+</LinearLayout>
+					
 			<TextView android:layout_height="wrap_content" android:layout_width="fill_parent" android:text="" android:id="@+id/text_address" android:textSize="15px" android:textColor="#eeeeee" android:padding="5px"></TextView>
 			<EditText android:layout_height="wrap_content" android:layout_width="fill_parent" android:layout_margin="5px" android:id="@+id/text_commentaddress" android:hint="@string/comment_address"></EditText>
+			
+			<TextView android:layout_height="wrap_content" android:layout_width="fill_parent" android:text="Nombre" android:id="@+id/name" android:textSize="15px" android:textColor="#eeeeee" android:padding="5px"></TextView>
+			<EditText android:layout_height="wrap_content" android:layout_width="fill_parent" android:layout_margin="5px" android:id="@+id/text_name" android:hint="@string/comment_name"></EditText>
 			
 			<TextView android:layout_height="wrap_content" android:layout_width="fill_parent" android:text="@string/type" android:textSize="15px" android:textColor="#eeeeee" android:padding="5px" android:layout_marginTop="10px"></TextView>
 			<Spinner android:id="@+id/type" android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_margin="5px"></Spinner>

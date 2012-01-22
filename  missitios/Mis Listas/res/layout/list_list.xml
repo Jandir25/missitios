@@ -21,7 +21,7 @@
 	        android:layout_width="fill_parent"
 	        android:layout_height="fill_parent"
 	        android:textColor="#ffffff" 
-	        android:text="@string/no_routes"/>
+	        android:text="@string/no_list"/>
 	        
 	</LinearLayout>
 	
