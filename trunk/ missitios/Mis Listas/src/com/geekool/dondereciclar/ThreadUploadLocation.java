@@ -24,6 +24,8 @@ import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;
 import org.xmlpull.v1.XmlPullParserFactory;
 
+import com.android.dataframework.Entity;
+
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -39,7 +41,9 @@ public class ThreadUploadLocation implements Runnable {
 	private static final int HEIGHT = 800;
 	private NewLocation mActivity;
 	private String msgToWrite;
-	private String address;
+	private String address, name;
+
+
 	private String commentAddress, description, contact, moreInfo;
 	private int type;
 	private double latitude, longitude;
@@ -48,12 +52,15 @@ public class ThreadUploadLocation implements Runnable {
 	private String mFilenameTemp = "";
 	
 	private int id = -1;
+	private long idList;
 	
-    /**
+
+
+	/**
      * Constructor - Este Thread exporta a diferentes formatos
      * 
      * @param mActivity Actividad
-     * @param idRoute Id de la ruta
+     * @param idList Id Lista
      */
 	
 	public ThreadUploadLocation(NewLocation mActivity, int id) {
@@ -68,7 +75,8 @@ public class ThreadUploadLocation implements Runnable {
 		if (mActivity.hasImageUpload())	upload();
 		//aqui tendrá que situarse el diferenciador de si es una promoción web o no
 		try {
-			saveDataBase();
+			saveLocalDataBase();
+			//saveDataBase();
 			//saveWeb();
 		} catch (XmlPullParserException e) {
 			e.printStackTrace();
@@ -247,7 +255,25 @@ public class ThreadUploadLocation implements Runnable {
 		
 	}
 	
-	
+	private void saveLocalDataBase() throws XmlPullParserException, IOException {
+
+		Entity ent = new Entity("tbl_places");
+		ent.setValue("name", name);
+		ent.setValue("latitude", latitude);
+		ent.setValue("longitude", longitude);
+		ent.setValue("description", description);
+		ent.setValue("address", address);
+		ent.setValue("puntuation", 1);//Punctuation system missing 
+		ent.setValue("type_id", type);
+		ent.setValue("list_id", idList);
+		ent.setValue("user_id", 1);//User Info missing 
+		if (ent.save()) {
+			handler.sendEmptyMessage(1);
+		} else {
+			handler.sendEmptyMessage(3);
+		} 
+		
+	}
 	
 	
 	
@@ -365,7 +391,24 @@ public class ThreadUploadLocation implements Runnable {
 	public double getLongitude() {
 		return longitude;
 	}
+	
+	public String getName() {
+		return name;
+	}
 
+	public void setName(String name) {
+		this.name = name;
+	}
+	
+    public long getIdList() {
+		return idList;
+	}
+
+	public void setIdList(long idList) {
+		this.idList = idList;
+	}
+	
+	
 	private Handler handler = new Handler() {
 		@Override
 		public void handleMessage(Message msg) {

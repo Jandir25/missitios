@@ -8,6 +8,7 @@ import java.io.StringReader;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
+import java.util.List;
 
 import org.apache.http.HttpResponse;
 import org.apache.http.client.ClientProtocolException;
@@ -17,6 +18,9 @@ import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.util.EntityUtils;
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserFactory;
+
+import com.android.dataframework.DataFramework;
+import com.android.dataframework.Entity;
 
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -55,14 +59,20 @@ public class NewLocation extends Activity {
 	
 	private Location mLocation = null;
 	private String mAddress = "";
+	private String mName = "";
 	private TextView tvAddress;
-	private EditText tCommentAddress, tDescription, tContact, tMoreInfo;
+	private EditText tName, tCommentAddress, tDescription, tContact, tMoreInfo;
 	private ImageView photo;
 	private Spinner spType;
 	
 	private double mLatitude, mLongitude;
 	
 	private ProgressDialog pd = null;
+	
+	//ECS
+	private long idList = -1;
+	private List <Entity> types;
+
 	
 	private int id = -1;
 	
@@ -94,7 +104,12 @@ public class NewLocation extends Activity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.new_location);
-        
+		//Leemos el xml de los propios recursos de la bbdd
+		try {
+		    DataFramework.getInstance().open(this, "com.geekool.dondereciclar");
+		} catch (Exception e) {
+		    e.printStackTrace();
+		}
         mLocation = null;
         mLatitude = 0;
         mLongitude = 0;
@@ -102,6 +117,8 @@ public class NewLocation extends Activity {
         
 		if (savedInstanceState != null) {
 			if (savedInstanceState.containsKey("id")) id = savedInstanceState.getInt("id");
+			//ECS Getting the idList 
+			if (savedInstanceState.containsKey("idList")) idList = savedInstanceState.getInt("idList");
 			if (savedInstanceState.containsKey("location")) {
 				mLocation = (Location) savedInstanceState.get("location");
 				mLatitude = mLocation.getLatitude();
@@ -114,6 +131,7 @@ public class NewLocation extends Activity {
 			Bundle extras = getIntent().getExtras();  
 			if (extras != null) {
 				id = (extras.containsKey("id")) ? extras.getInt("id") : -1;
+				idList = (extras.containsKey("idList")) ? extras.getInt("idlist") : -1;
 				if (extras.containsKey("location")) {
 					mLocation = (Location)extras.get("location");
 					mLatitude = mLocation.getLatitude();
@@ -124,19 +142,24 @@ public class NewLocation extends Activity {
 				if (extras.containsKey("longitude")) mLongitude = extras.getDouble("longitude");
 			}
 		}
-				
-		tvAddress = (TextView) this.findViewById(R.id.text_address);
-		
+		//ECS New field: name
+		tName = (EditText)this.findViewById(R.id.text_name);
+		tvAddress = (TextView) this.findViewById(R.id.text_address);		
 		tCommentAddress = (EditText) this.findViewById(R.id.text_commentaddress);
 		tDescription = (EditText) this.findViewById(R.id.text_description);
 		tContact = (EditText) this.findViewById(R.id.text_contact);
 		tMoreInfo = (EditText) this.findViewById(R.id.text_more_info);
 		spType = (Spinner) this.findViewById(R.id.type);
-		
-		ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(
+		//ECS Spinner formed by the table_types
+		/*ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(
                 this, R.array.select_type_points, android.R.layout.simple_spinner_item);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        spType.setAdapter(adapter);
+        spType.setAdapter(adapter);*/
+		types = DataFramework.getInstance().getEntityList("tbl_types");
+		ArrayAdapter<Entity> adapter = new ArrayAdapter<Entity>(this, android.R.layout.simple_spinner_dropdown_item, types);
+		adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+		spType.setAdapter(adapter);
+		
 		
 		photo = (ImageView) this.findViewById(R.id.photo);
 		
@@ -199,9 +222,11 @@ public class NewLocation extends Activity {
         pd.show();
         //sustituiremos el threadUpLocation por una insercion en la bbdd
         threadUpload = new ThreadUploadLocation(this, id);
+        threadUpload.setIdList(idList);
         threadUpload.setLatitude(mLatitude);
         threadUpload.setLongitude(mLongitude);
         threadUpload.setAddress(mAddress);
+        threadUpload.setName(tName.getText().toString());
         threadUpload.setCommentAddress(tCommentAddress.getText().toString());
         threadUpload.setDescription(tDescription.getText().toString());
         threadUpload.setContact(tContact.getText().toString());
@@ -209,7 +234,8 @@ public class NewLocation extends Activity {
         threadUpload.setType(spType.getSelectedItemPosition()+1);        
 
     	Thread thread = new Thread(threadUpload);
-		thread.start();
+		thread.start();    
+        
     }
     
     public void endSave(boolean correctly) {
@@ -433,6 +459,10 @@ public class NewLocation extends Activity {
 	public boolean hasImageUpload() {
 		return hasImageUpload;
 	}
-	
+	@Override
+	protected void onDestroy() {
+		super.onDestroy();
+		DataFramework.getInstance().close();
+	}
 	
 }
