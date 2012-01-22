@@ -75,7 +75,7 @@
 				  	android:gravity="center"
 				  	android:textStyle="bold"
 				  	android:textColor="#000000"
-				  	android:text="Nuevo evento"
+				  	android:text="Nueva Lista"
 			  	/>
 		    </LinearLayout>
 		    
@@ -89,7 +89,8 @@
 			    android:paddingLeft="20px"
 		   	>
 			   	
-			    <Button
+			    <ImageButton
+			    	android:id="@+id/openlist"
 			    	android:layout_width="wrap_content" 
 			    	android:layout_height="wrap_content" 
 			    	android:layout_weight="1"
@@ -102,7 +103,7 @@
 				  	android:gravity="center"
 				  	android:textStyle="bold"
 				  	android:textColor="#000000"
-				  	android:text="Calendario"
+				  	android:text="Abrir Lista"
 			  	/>
 		    </LinearLayout>
 		    

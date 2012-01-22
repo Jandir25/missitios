@@ -15,8 +15,11 @@
             </intent-filter>
         </activity>
 		<service android:name="ServiceGPS"></service>
+	<activity android:name="MisListas" android:screenOrientation="portrait"></activity>
     <activity android:name="InfoLocation"></activity>
     <activity android:name="NewLocation"></activity>
+    <activity android:name="ListLists"></activity>
+    <activity android:name="ListEdit"></activity>
     <activity android:name="VerifyUser"></activity>
     <activity android:name="Preferences"></activity>
 <activity android:name="Comments"></activity>

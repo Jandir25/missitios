@@ -3,6 +3,13 @@
     <string name="hello">Hello World, DondeReciclar!</string>
     <string name="select_action">Seleccionar</string>
     <string name="app_name">Mis Listas</string>
+    <string name="list_list">Lista de Listas</string>
+    <string name="edit_list">Elementos de la lista</string>
+    <string name="no_list">No existe ninguna lista</string>
+    <string name="menu_filter">Filtrar</string>
+    <string name="menu_delete_all">Borrar todas las listas</string>
+    <string name="menu_import">Importar Lista</string>
+    <string name="of">of</string>
     <string name="menu_satellite">Vista Satélite</string>
     <string name="menu_traffic">Vista Callejero</string>
     <string name="my_location">Mi ubicación</string>
@@ -23,6 +30,7 @@
     <string name="type_location">Cómo hacerlo</string>
     <string name="search_gps">Buscando ubicación. Una vez que encuentre su posición inténtelo de nuevo</string>
     <string name="comment_address">Comentario a la dirección</string>
+    <string name="comment_name">Nombre del lugar</string>
     <string name="description">Descripción</string>
     <string name="contact">Contacto</string>
     <string name="more_information">Más información</string>
@@ -34,6 +42,7 @@
     <string name="upload_image">Subir imagen</string>
     <string name="image">Imagen</string>
      <string name="select_category">Selecciona tipo</string>
+      <string name="select_list">Selecciona lista</string>
     
     <string name="go_to">Ir al punto</string>
     <string name="share">Compartir</string>
@@ -156,5 +165,6 @@
 	<string name="pre_inappropriate_body">URL del POI</string>
 	
 	<string name="post_inappropriate_body">Por favor explique a continuación con la máxima precisión el error que ha encontrado en el punto que estaba visitando.</string>
+	
 	
 </resources>
