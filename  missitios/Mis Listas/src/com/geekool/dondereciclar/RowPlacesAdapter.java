@@ -16,7 +16,7 @@ import com.android.dataframework.DataFramework;
 import com.android.dataframework.Entity;
 
 
-public class RowListAdapter extends BaseAdapter {
+public class RowPlacesAdapter extends BaseAdapter {
 
     private Context mContext;
     private List<Entity> elements; 
@@ -25,13 +25,13 @@ public class RowListAdapter extends BaseAdapter {
 	
     /**
      * Constructor - Adaptador que crea la vista de cada una de las
-     * filas de la lista de listas
+     * filas de la lista de Lugares
      * 
      * @param mContext Context
      * @param elements Lista de elementos
      */
     
-    public RowListAdapter(Context mContext, List<Entity> elements)
+    public RowPlacesAdapter(Context mContext, List<Entity> elements)
     {
         this.mContext = mContext;
         this.elements = elements;
@@ -93,10 +93,10 @@ public class RowListAdapter extends BaseAdapter {
 	public View getView(int position, View convertView, ViewGroup parent) {
 		Entity item = elements.get(position);
 		long id = item.getId();
-		long creator_id = item.getEntity("creator").getId();
+		long type_id = item.getEntity("type_id").getId();
         View v = View.inflate(mContext, R.layout.list_row, null);
 
-        Drawable d = mContext.getResources().getDrawable(mContext.getResources().getIdentifier("com.geekool.dondereciclar:drawable/category_" + creator_id, null, null));
+        Drawable d = mContext.getResources().getDrawable(mContext.getResources().getIdentifier("com.geekool.dondereciclar:drawable/category_" + type_id, null, null));
         
         ImageView img = (ImageView)v.findViewById(R.id.icon);
         img.setImageDrawable(d);

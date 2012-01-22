@@ -30,7 +30,21 @@ import android.widget.Toast;
 import com.google.android.maps.GeoPoint;
 
 public class Utils {
+	
+	static private String mPackage = "com.geekcool.dondereciclar";
 
+	 /**
+     * Selecciona paquete en uso
+     * 
+     */
+	
+	
+	static public String getPackage()
+    {
+		return mPackage;
+    }
+	
+	
     /**
      * Convierte de Location a Geopoint
      * 

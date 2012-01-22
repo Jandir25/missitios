@@ -18,6 +18,7 @@ import org.xmlpull.v1.XmlPullParserFactory;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -95,6 +96,8 @@ public class MisListas extends MapActivity implements OnMapLocationClickListener
     private int pages = 0;
     
     private Location topLeft, bottomRight;
+    
+    public long idList;
     
     private TextView tvFound, tvPages, tvInfo;
     private ImageView ivIcoInfo; 
@@ -242,11 +245,38 @@ public class MisListas extends MapActivity implements OnMapLocationClickListener
         }
         return null;
     }
+    /**
+     * Recibe informacion del tipo de lista que estamos creando
+     * 
+     * 
+     * 
+     * 
+     */
+   
+    
+    
+    
+    
+    
     
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main);
+        if (savedInstanceState != null) {
+			if (savedInstanceState.containsKey(DataFramework.KEY_ID)) idList = savedInstanceState.getLong(DataFramework.KEY_ID);
+			
+		} else {
+			Bundle extras = getIntent().getExtras();  
+			if (extras != null) {
+				idList = (extras.containsKey(DataFramework.KEY_ID)) ? extras.getLong(DataFramework.KEY_ID) : -1;
+				
+			} else {
+				idList = -1;
+				
+			}
+		}
+        
         
         //Comprobamos el tipo de conexión a internet y si es demasiada lenta le mostramos un aviso
         if ( Utils.isConnectionSlow(MisListas.this) ) {
@@ -273,7 +303,8 @@ public class MisListas extends MapActivity implements OnMapLocationClickListener
         
         FrameLayout frameMapContainer = (FrameLayout) this.findViewById(R.id.map_container);
         
-        mMapView = new MapLocationViewer(this, "0aF-1bxSehpw5LfdmFoMqeNxCbbQDwAw7fEG7Tg");
+        //mMapView = new MapLocationViewer(this, "0aF-1bxSehpw5LfdmFoMqeNxCbbQDwAw7fEG7Tg"); Caducó
+        mMapView = new MapLocationViewer(this, "0aF-1bxSehpzt5JpRMxAIWseewD8hhbJ_oS9HVQ");
 		mMapView.setBuiltInZoomControls(true);
 		
 		mMapView.getManager().setOnMapLocationClickListener(this);
@@ -486,6 +517,7 @@ public class MisListas extends MapActivity implements OnMapLocationClickListener
 				} else {
 					Intent i = new Intent(MisListas.this, NewLocation.class);
 					Location loc = mMapView.getManager().getNewLocation();
+					//ECS Included the list id
 					i.putExtra("address", getAddress(loc));
 					i.putExtra("location", loc);
 					startActivityForResult(i, ACTIVITY_NEWLOCATION);
@@ -503,6 +535,8 @@ public class MisListas extends MapActivity implements OnMapLocationClickListener
 				goToNewLocationInNextLocation = false;
 				Intent i = new Intent(MisListas.this, NewLocation.class);
 				Location loc = mMapView.getManager().getNewLocation();
+				//ECS 10/12/2011
+				i.putExtra("idList", idList);//Sending also the list id FALLANDO 10/12
 				i.putExtra("address", getAddress(loc));
 				i.putExtra("location", loc);
 				startActivityForResult(i, ACTIVITY_NEWLOCATION);
@@ -969,7 +1003,15 @@ public class MisListas extends MapActivity implements OnMapLocationClickListener
 		} catch (Exception e) {
 		    e.printStackTrace();
 		}
-		List <Entity> places  = DataFramework.getInstance().getEntityList("tbl_places");
+
+		
+		
+		
+		
+		
+		
+		//List<Entity> categories = DataFramework.getInstance().getEntityList("personal", "categoria_id = 3", "fecha asc");
+		List <Entity> places  = DataFramework.getInstance().getEntityList("tbl_places","list_id=" + idList);
 		try {
 			
 			Iterator iter = places.iterator();
