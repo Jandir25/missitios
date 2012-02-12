@@ -18,9 +18,9 @@ public class ListEdit extends ListActivity {
 	private long searchDate = -1;
 	private long orderList = -1;
 	
-	private RowListAdapter places;
+	private RowPlacesAdapter places;
 	private long selectId=-1;
-	private int selectPostion=-1;
+	private int selectPosition=-1;
 	
 	@Override
 	public void onCreate(Bundle savedInstanceState){
@@ -36,20 +36,20 @@ public class ListEdit extends ListActivity {
         
         if (savedInstanceState != null) {
 			if (savedInstanceState.containsKey("selectId")) selectId = savedInstanceState.getLong("selectId");
-			if (savedInstanceState.containsKey("selectPostion")) selectPostion = savedInstanceState.getInt("selectPostion");
+			if (savedInstanceState.containsKey("selectPostion")) selectPosition = savedInstanceState.getInt("selectPostion");
 			
         } else {
         	Bundle extras = getIntent().getExtras();  
 			if (extras != null) {
 				selectId = (extras.containsKey("selectId")) ? extras.getLong("selectId") : -1;
-				selectPostion = (extras.containsKey("selectPostion")) ? extras.getInt("selectPostion") : -1;
+				selectPosition = (extras.containsKey("selectPosition")) ? extras.getInt("selectPosition") : -1;
 				
 			} else {
 				searchIdCategory = -1;
 				searchIdGroup = -1;
 				searchDate = -1;
 				selectId = -1;
-				selectPostion = -1;
+				selectPosition = -1;
 				orderList = -1;
 			}
 			final List <Entity> lists  = DataFramework.getInstance().getEntityList("tbl_places");
@@ -70,7 +70,8 @@ public class ListEdit extends ListActivity {
     
     private void fillData() {
     	try {//tiene que ser un RowPlacesAdapter
-	    	places = new RowListAdapter(this, DataFramework.getInstance().getEntityList("tbl_places"));
+    		//List <Entity> places  = DataFramework.getInstance().getEntityList("tbl_places","list_id=" + selectId);
+	    	places = new RowPlacesAdapter(this, DataFramework.getInstance().getEntityList("tbl_places","list_id=" + selectId));
 	    	places.setSelectId(selectId);
 	        setListAdapter(places);
 	        if (selectId>=0) {
@@ -78,11 +79,18 @@ public class ListEdit extends ListActivity {
 	        }
 	        
 	        //TextView total = (TextView)findViewById(R.id.total_routes);
-	        this.setTitle(this.getString(R.string.list_list) + " (" + places.getCount() + " " +  this.getString(R.string.of) + " " + DataFramework.getInstance().getEntityList("tbl_places").size() + ")");
+	        this.setTitle(this.getString(R.string.list_elements) + " (" + places.getCount() + " " +  this.getString(R.string.of) + " " + DataFramework.getInstance().getEntityList("tbl_places","list_id=" + selectId).size() + ")");
 	        	        
     	} catch (Exception e) {
     		System.out.println("ERROR: "+e.getMessage());
     	}
     	        
     }
+
+	@Override
+	protected void onDestroy() {
+		super.onDestroy();
+		DataFramework.getInstance().close();
+	}
+    
 }
