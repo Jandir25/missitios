@@ -94,18 +94,25 @@ public class RowPlacesAdapter extends BaseAdapter {
 		Entity item = elements.get(position);
 		long id = item.getId();
 		long type_id = item.getEntity("type_id").getId();
-        View v = View.inflate(mContext, R.layout.list_row, null);
+        View v = View.inflate(mContext, R.layout.place_row, null);
 
         Drawable d = mContext.getResources().getDrawable(mContext.getResources().getIdentifier("com.geekool.dondereciclar:drawable/category_" + type_id, null, null));
         
         ImageView img = (ImageView)v.findViewById(R.id.icon);
         img.setImageDrawable(d);
         
-        TextView title = (TextView)v.findViewById(R.id.title);       
-        title.setText(item.getString("title"));
-            
-        TextView marks = (TextView)v.findViewById(R.id.marks);
+        TextView title = (TextView)v.findViewById(R.id.name);       
+        title.setText(item.getString("name"));
         
+        TextView adress = (TextView)v.findViewById(R.id.address);       
+        adress.setText(item.getString("address"));
+        
+        TextView description = (TextView)v.findViewById(R.id.description);       
+        description.setText(item.getString("description"));
+        
+        TextView puntuation = (TextView)v.findViewById(R.id.puntuation);       
+        puntuation.setText(item.getString("puntuation"));
+            
         if (selectId==id) {
         	viewSelectId = v;
         	title.setTextColor(Color.rgb(0xea, 0xea,0x9c));
@@ -129,7 +136,7 @@ public class RowPlacesAdapter extends BaseAdapter {
     
     public void clearSelectId() {
     	if ( (selectId>=0) && (viewSelectId!=null)) {
-   			TextView t = (TextView) viewSelectId.findViewById(R.id.title);
+   			TextView t = (TextView) viewSelectId.findViewById(R.id.name);
     		t.setTextColor(Color.WHITE);
     		viewSelectId = null;
     		selectId = -1;
