@@ -118,7 +118,7 @@ public class NewLocation extends Activity {
 		if (savedInstanceState != null) {
 			if (savedInstanceState.containsKey("id")) id = savedInstanceState.getInt("id");
 			//ECS Getting the idList 
-			if (savedInstanceState.containsKey("idList")) idList = savedInstanceState.getInt("idList");
+			if (savedInstanceState.containsKey("idList")) idList = savedInstanceState.getLong("idList");
 			if (savedInstanceState.containsKey("location")) {
 				mLocation = (Location) savedInstanceState.get("location");
 				mLatitude = mLocation.getLatitude();
@@ -131,7 +131,7 @@ public class NewLocation extends Activity {
 			Bundle extras = getIntent().getExtras();  
 			if (extras != null) {
 				id = (extras.containsKey("id")) ? extras.getInt("id") : -1;
-				idList = (extras.containsKey("idList")) ? extras.getInt("idlist") : -1;
+				idList = (extras.containsKey("idList")) ? extras.getLong("idList") : -1;
 				if (extras.containsKey("location")) {
 					mLocation = (Location)extras.get("location");
 					mLatitude = mLocation.getLatitude();

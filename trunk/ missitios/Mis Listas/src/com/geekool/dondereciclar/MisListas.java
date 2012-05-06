@@ -107,6 +107,10 @@ public class MisListas extends MapActivity implements OnMapLocationClickListener
     
     private ImageView btnGroup1, btnGroup2, btnGroup3, btnGroup4, btnGroup5, btnMore;
     
+    private List <Entity> places;
+    
+    public int ownList=-1;//propia es un 1, descargada es un 0
+    
     private String groups2str() {
     	String out = "(";
     	for (int i=0; i<5; i++) {
@@ -150,6 +154,7 @@ public class MisListas extends MapActivity implements OnMapLocationClickListener
     public String getAddress(Location loc) {
     	Geocoder gc = new Geocoder(MisListas.this);
     	try {
+    		
     		List<Address> listAddress = gc.getFromLocation(loc.getLatitude(), loc.getLongitude(), 1);
     		if (listAddress.size()>0) {
     			Address address = listAddress.get(0);
@@ -264,16 +269,17 @@ public class MisListas extends MapActivity implements OnMapLocationClickListener
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main);
         if (savedInstanceState != null) {
-			if (savedInstanceState.containsKey(DataFramework.KEY_ID)) idList = savedInstanceState.getLong(DataFramework.KEY_ID);
-			
+			if (savedInstanceState.containsKey(DataFramework.KEY_ID)) 
+				idList = savedInstanceState.getLong(DataFramework.KEY_ID);
+				//OwnList = savedInstanceState. ;añadir mas adelante, implica recuperar si es una ownlist
 		} else {
 			Bundle extras = getIntent().getExtras();  
 			if (extras != null) {
 				idList = (extras.containsKey(DataFramework.KEY_ID)) ? extras.getLong(DataFramework.KEY_ID) : -1;
-				
+				ownList = 1;
 			} else {
 				idList = -1;
-				
+				ownList = 0;
 			}
 		}
         
@@ -304,8 +310,9 @@ public class MisListas extends MapActivity implements OnMapLocationClickListener
         FrameLayout frameMapContainer = (FrameLayout) this.findViewById(R.id.map_container);
         
         //mMapView = new MapLocationViewer(this, "0aF-1bxSehpw5LfdmFoMqeNxCbbQDwAw7fEG7Tg"); Caducó
-        mMapView = new MapLocationViewer(this, "0aF-1bxSehpzt5JpRMxAIWseewD8hhbJ_oS9HVQ");
-		mMapView.setBuiltInZoomControls(true);
+        mMapView = new MapLocationViewer(this, "0aF-1bxSehpz1_GkIJsHGbYdyswieVHEsZUDIUg");
+        
+        mMapView.setBuiltInZoomControls(true);
 		
 		mMapView.getManager().setOnMapLocationClickListener(this);
 		
@@ -512,6 +519,7 @@ public class MisListas extends MapActivity implements OnMapLocationClickListener
 				if (mMapView.getManager().getTypeMarks() == MapLocationsManager.TYPE_MARKS_LOCATIONS) {
 					Intent i = new Intent(MisListas.this, InfoLocation.class);
 					i.putExtra("id", idCurrentLocation);
+					i.putExtra("ownList", ownList);
 					i.putExtra("locationGPS", lastLocation);
 			        startActivityForResult(i, ACTIVITY_LOCATION);
 				} else {
@@ -520,6 +528,8 @@ public class MisListas extends MapActivity implements OnMapLocationClickListener
 					//ECS Included the list id
 					i.putExtra("address", getAddress(loc));
 					i.putExtra("location", loc);
+					i.putExtra("idList", idList);
+					i.putExtra("ownList", ownList);
 					startActivityForResult(i, ACTIVITY_NEWLOCATION);
 				}
 			}
@@ -884,42 +894,53 @@ public class MisListas extends MapActivity implements OnMapLocationClickListener
 	
 	private void readLocation(int id) throws XmlPullParserException, IOException {
 		idCurrentLocation = id;
-		String url = "http://www.dondereciclar.com/api_info_location.php?id=" + id;
-		
-		HttpGet request = new HttpGet(url);
-		HttpClient client = new DefaultHttpClient();
-		HttpResponse httpResponse = client.execute(request);
-		String xml = EntityUtils.toString(httpResponse.getEntity());
-		try {
+		if (ownList!=1){// si se trata de una lista publica
+			String url = "http://www.dondereciclar.com/api_info_location.php?id=" + id;
+			HttpGet request = new HttpGet(url);
+			HttpClient client = new DefaultHttpClient();
+			HttpResponse httpResponse = client.execute(request);
+			String xml = EntityUtils.toString(httpResponse.getEntity());
+			try {
 			
-			XmlPullParserFactory factory = XmlPullParserFactory.newInstance();
-			factory.setNamespaceAware(true);
-			XmlPullParser x = factory.newPullParser();
+				XmlPullParserFactory factory = XmlPullParserFactory.newInstance();
+				factory.setNamespaceAware(true);
+				XmlPullParser x = factory.newPullParser();
 			
-			x.setInput( new StringReader ( xml ) );
+				x.setInput( new StringReader ( xml ) );
 					
-			int eventType = x.getEventType();
-	        while (eventType != XmlPullParser.END_DOCUMENT) {
-	        	if ( eventType == XmlPullParser.START_TAG ) {
-	        		if (x.getName().equals("location")) {
-	        			int idGroup = this.getResources().getIdentifier(
+				int eventType = x.getEventType();
+				while (eventType != XmlPullParser.END_DOCUMENT) {
+					if ( eventType == XmlPullParser.START_TAG ) {
+						if (x.getName().equals("location")) {
+							int idGroup = this.getResources().getIdentifier(
 	        					"com.geekool.dondereciclar:drawable/ico_"+x.getAttributeValue(null, "group_id")+"_on", null, null);
-	        			ivIcoInfo.setImageResource(idGroup);
-	        		}
-	        		if (x.getName().equals("street")) {
-	        			tvInfo.setText(x.nextText());
-	        		}
+							ivIcoInfo.setImageResource(idGroup);
+						}
+						if (x.getName().equals("street")) {
+							tvInfo.setText(x.nextText());
+						}
 	        		
-	        	}
-	        	eventType = x.next();
-	        }
+					}
+					eventType = x.next();
+				}
 			
-		} catch (Exception e) {
+			} catch (Exception e) {
 			
+			}
 		}
-		
-		showInfo();
-	}
+			else{// Se trata de una lista privada
+
+				Entity e = new Entity("tbl_places", (long) id);
+				System.out.println(e.getString("name"));
+    			System.out.println(e.getString("longitude"));
+    			System.out.println(e.getString("latitude"));
+    			System.out.println(e.getString("description"));
+    			System.out.println(e.getString("address"));
+    			tvInfo.setText(e.getString("address")+" "+e.getString("description"));
+			
+			}
+			showInfo();
+		}
 	
 /*	private void readLocations() throws XmlPullParserException, IOException {
 		
@@ -1003,15 +1024,9 @@ public class MisListas extends MapActivity implements OnMapLocationClickListener
 		} catch (Exception e) {
 		    e.printStackTrace();
 		}
-
-		
-		
-		
-		
-		
 		
 		//List<Entity> categories = DataFramework.getInstance().getEntityList("personal", "categoria_id = 3", "fecha asc");
-		List <Entity> places  = DataFramework.getInstance().getEntityList("tbl_places","list_id=" + idList);
+		places  = DataFramework.getInstance().getEntityList("tbl_places","list_id=" + idList);
 		try {
 			
 			Iterator iter = places.iterator();
@@ -1020,13 +1035,16 @@ public class MisListas extends MapActivity implements OnMapLocationClickListener
     			System.out.println(ent.getString("name"));
     			System.out.println(ent.getString("longitude"));
     			System.out.println(ent.getString("latitude"));
+    			System.out.println(ent.getString("description"));
+    			System.out.println(ent.getString("address"));
+    			System.out.println(ent.getId());
     			Location loc = new Location(LocationManager.GPS_PROVIDER);
     			loc.setLatitude(ent.getDouble("latitude"));
     			loc.setLongitude(ent.getDouble("longitude"));
     			//ECS 16/10/11 FALTA SABER QUE ES EL GROUP Y EMULARLO, TAMBIEN EL ID Y YA SE REPRESENTARA
     			//El group será el tipo del punto, el id debe tomarlo del xml de la tabla
-    			MapLocation ml = new MapLocation(mMapView, loc,1);
-    			ml.setId(1);
+    			MapLocation ml = new MapLocation(mMapView, loc,1,ent.getString("name"));
+    			ml.setId(ent.getId());
     			mMapView.getManager().addMapLocation(ml);
     		}
 			
@@ -1122,6 +1140,14 @@ public class MisListas extends MapActivity implements OnMapLocationClickListener
 		DataFramework.getInstance().close();
 
 		stopService();
+	}
+
+	public int getOwnList() {
+		return ownList;
+	}
+
+	public void setOwnList(int ownList) {
+		ownList = ownList;
 	}
 	
 	

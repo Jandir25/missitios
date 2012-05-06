@@ -17,6 +17,8 @@ import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;
 import org.xmlpull.v1.XmlPullParserFactory;
 
+import com.android.dataframework.Entity;
+
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Adapter;
@@ -45,7 +47,7 @@ public class RowInfoLocationAdapter extends BaseAdapter {
 	
     private InfoLocation mInfoLocation;
     private int id = -1;
-    
+    private int ownList = -1;
     private int lastPosition = 0;
 	
     /**
@@ -136,7 +138,17 @@ public class RowInfoLocationAdapter extends BaseAdapter {
 	private void readComments() throws XmlPullParserException, IOException {
 		
 		List<Map<String,?>> comments = new LinkedList<Map<String,?>>();
-		
+		if (ownList!=-1){
+			Entity e = new Entity("tbl_places", (long) id);
+			System.out.println(e.getString("name"));
+			System.out.println(e.getString("longitude"));
+			System.out.println(e.getString("latitude"));
+			System.out.println(e.getString("description"));
+			System.out.println(e.getString("address"));
+			comments.add(createCommentItem(e.getString("name"), null));
+			
+		}
+		else{
 		String url = "http://www.dondereciclar.com/api_comments.php?id=" + id;
 		
 		HttpGet request = new HttpGet(url);
@@ -184,7 +196,7 @@ public class RowInfoLocationAdapter extends BaseAdapter {
 			lastPosition += 2;
 			positionsButtons.put(lastPosition, "more_comments");
 		}
-		
+		}
 	}
 	
 	

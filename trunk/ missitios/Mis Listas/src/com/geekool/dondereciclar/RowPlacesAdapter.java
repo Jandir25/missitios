@@ -113,6 +113,7 @@ public class RowPlacesAdapter extends BaseAdapter {
         TextView puntuation = (TextView)v.findViewById(R.id.puntuation);       
         puntuation.setText(item.getString("puntuation"));
             
+        
         if (selectId==id) {
         	viewSelectId = v;
         	title.setTextColor(Color.rgb(0xea, 0xea,0x9c));

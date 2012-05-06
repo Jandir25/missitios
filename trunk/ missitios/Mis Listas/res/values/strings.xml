@@ -27,6 +27,7 @@
     <string name="type">Tipo</string>
     <string name="preferences">Preferencias</string>
     <string name="address">Dirección</string>
+	<string name="_id">Id en BBDD</string>
     <string name="more_info">Más información</string>
     <string name="type_location">Cómo hacerlo</string>
     <string name="search_gps">Buscando ubicación. Una vez que encuentre su posición inténtelo de nuevo</string>

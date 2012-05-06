@@ -71,6 +71,27 @@ public class MapLocation {
 		this.mLocation = loc;
 		setType(type);
 	}
+/** sobrecargamos el constructior metiendole un titulo ad hoc**/	
+	public MapLocation(MapLocationViewer mapView, Location loc, int type,String title) {
+		if (type==TYPE_PUNTOLIMPIO) {
+			this.mTitle = title;			
+		} else if (type==TYPE_PILAS) {
+			this.mTitle = mapView.getContext().getString(R.string.pilas);		
+		} else if (type==TYPE_DENUNCIA) {
+			this.mTitle = mapView.getContext().getString(R.string.denuncia);			
+		} else if (type==TYPE_ROPA) {
+			this.mTitle = mapView.getContext().getString(R.string.ropa);		
+		} else if (type==TYPE_OTROS) {
+			this.mTitle = mapView.getContext().getString(R.string.otro);		
+		} else if (type==TYPE_NEW) {
+			this.mTitle = mapView.getContext().getString(R.string.new_poi);		
+		}
+		
+		mMapLocationView = mapView;
+		this.mLocation = loc;
+		setType(type);
+	}	
+	
 	
     /**
      * Mostrarlo en el mapa
@@ -342,8 +363,8 @@ public class MapLocation {
 	    		p.y-MapLocationsManager.textPaint.ascent()-this.getHeightIcon()-hBox+PADDING_Y - DISTANCE_BUBBLE, MapLocationsManager.textPaint);
 	}
 
-	public void setId(int id) {
-		this.id = id;
+	public void setId(long l) {
+		this.id = (int) l;
 	}
 
 	public int getId() {
