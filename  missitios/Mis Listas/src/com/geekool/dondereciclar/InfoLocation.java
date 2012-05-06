@@ -27,6 +27,8 @@ import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;
 import org.xmlpull.v1.XmlPullParserFactory;
 
+import com.android.dataframework.Entity;
+
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.ListActivity;
@@ -61,6 +63,7 @@ public class InfoLocation extends ListActivity {
 	private static final int HEIGHT_IMAGE = 250;
 	
 	private int id = -1;
+	private int ownList = -1;
 	private String httpImage = "";
 	private Location mLocationGPS = null;
 	private double mLatitudeGPS, mLongitudeGPS;
@@ -162,25 +165,29 @@ public class InfoLocation extends ListActivity {
 			if (savedInstanceState.containsKey("id")) id = savedInstanceState.getInt("id");
 			if (savedInstanceState.containsKey("locationGPS")) {
 				mLocationGPS = (Location) savedInstanceState.get("location");
+				
 				if (mLocationGPS!=null) {
 					mLatitudeGPS = mLocationGPS.getLatitude();
 					mLongitudeGPS = mLocationGPS.getLongitude();
 				}
 			}
 			if (savedInstanceState.containsKey("latitudeGPS")) mLatitudeGPS = savedInstanceState.getDouble("latitudeGPS");
+			if (savedInstanceState.containsKey("ownList")) ownList = savedInstanceState.getInt("ownList");
 			if (savedInstanceState.containsKey("longitudeGPS")) mLongitudeGPS = savedInstanceState.getDouble("longitudeGPS");
 		} else {
 			Bundle extras = getIntent().getExtras();  
 			if (extras != null) {
 				if (extras.containsKey("locationGPS")) {
 					mLocationGPS = (Location)extras.get("locationGPS");
+					
 					if (mLocationGPS!=null) {
 						mLatitudeGPS = mLocationGPS.getLatitude();
 						mLongitudeGPS = mLocationGPS.getLongitude();
 					}
 				}
 				id = (extras.containsKey("id")) ? extras.getInt("id") : -1;
-				if (extras.containsKey("latitudeGPS")) mLatitudeGPS = extras.getDouble("latitudeGPS");
+				ownList = (extras.containsKey("ownList")) ? extras.getInt("ownList") : -1;
+			    if (extras.containsKey("latitudeGPS")) mLatitudeGPS = extras.getDouble("latitudeGPS");
 				if (extras.containsKey("longitudeGPS")) mLongitudeGPS = extras.getDouble("longitudeGPS");
 			} else {
 				id = -1;
@@ -254,6 +261,21 @@ public class InfoLocation extends ListActivity {
 		
 		List<Map<String,?>> infoLocation = new LinkedList<Map<String,?>>();
 		Bitmap bmpImage = null;
+		if (ownList != -1){
+			Entity e = new Entity("tbl_places", (long) id);
+			System.out.println(e.getString("name"));
+			System.out.println(e.getString("longitude"));
+			System.out.println(e.getString("latitude"));
+			System.out.println(e.getString("description"));
+			System.out.println(e.getString("address"));
+			/*tvInfo.setText(e.getString("address")+" "+e.getString("description"));*/
+			
+			return 0;
+		}
+		
+		
+		else{
+		
 		
 		String url = "http://www.dondereciclar.com/api_info_location.php?id=" + id;
 		
@@ -355,7 +377,7 @@ public class InfoLocation extends ListActivity {
 		}
 		
 		return lastPosition-1;
-		
+		}
 	}
 	
     @Override
