@@ -1,33 +1,36 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
-<database name="miListaPFC" version="2">  
-  <table name="tbl_lists" to-string="%title%">
-    <field name="title" obligatory="true" type="text" size="128"/>
+<database name="misGuiasTFC" version="2"> 
+  <table name="tbl_guides" to-string="%title%">
+    <field name="title" obligatory="true" type="text" size="256"/>
     <field name="creator" type="foreign-key" foreign-table="tbl_users" />
-    <field name="fecha" obligatory="true" type="text"/>
-  </table>
-  
+    <field name="date" obligatory="true" type="text"/>
+    <field name="category_id" obligatory="true" type="foreign-key" foreign-table="tbl_guide_category" />
+  </table>  
   <table name="tbl_places" to-string="%name%">
     <field name="name" obligatory="true" type="text" size="128"/>
     <field name="latitude" obligatory="true" type="double"/>
     <field name="longitude" obligatory="true" type="double"/>
     <field name="description" obligatory="true" type="text" />
     <field name="address" obligatory="true" type="text"/>
-    <field name="puntuation" obligatory="true" type="float"/>		
+    <field name="puntuation" obligatory="true" type="float"/>
+    <field name="comment" obligatory="true" type="text"/>		
     <field name="type_id" type="foreign-key" foreign-table="tbl_types" />
-    <field name="list_id" type="foreign-key" foreign-table="tbl_lists" />
-    <field name="user_id" type="foreign-key" foreign-table="tbl_users" />    
-  </table>
-  
+    <field name="guide_id" type="foreign-key" foreign-table="tbl_guides" />
+       
+  </table>  
   <table name="tbl_types" to-string="%name%">
     <field name="name" obligatory="true" type="text" size="128"/>
     <field name="description" obligatory="true" type="text"/>
     <field name="icon" obligatory="true" type="drawable-identifier"/>
-  </table>
-  
+  </table>  
+   <table name="tbl_guide_category" to-string="%name%">
+    <field name="name" obligatory="true" type="text" size="128"/>
+    <field name="description" obligatory="true" type="text"/>
+    <field name="icon" obligatory="true" type="drawable-identifier"/>
+  </table>  
   <table name="tbl_users" to-string="%alias%">
     <field name="alias" obligatory="true" type="text" size="128"/>
     <field name="name" obligatory="true" type="text"/>
     <field name="email" obligatory="true" type="text"/>
-  </table>
-  
+  </table>  
  </database>
