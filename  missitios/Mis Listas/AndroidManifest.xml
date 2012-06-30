@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-      package="com.geekool.dondereciclar"
+      package="com.tfc.misguias"
       android:versionCode="1"
       android:versionName="1.0">
         <uses-permission android:name="android.permission.INTERNET" />
@@ -14,15 +14,15 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-                <service android:name="ServiceGPS"></service>
+                <service android:name="com.tfc.misguias.ServiceGPS"></service>
         <activity android:name="MisListas" android:screenOrientation="portrait"></activity>
     <activity android:name="InfoLocation"></activity>
     <activity android:name="NewLocation"></activity>
-    <activity android:name="ListLists"></activity>
-    <activity android:name="ListEdit"></activity>
+    <activity android:name=".GuideList"></activity>
+    <activity android:name=".EditGuide"></activity>
     <activity android:name="VerifyUser"></activity>
     <activity android:name="Preferences"></activity>
-<activity android:name="Comments"></activity>
+<activity android:name="com.tfc.misguias.Comments"></activity>
 </application>
     <uses-sdk android:minSdkVersion="3" android:targetSdkVersion="4" />
 <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"></uses-permission>

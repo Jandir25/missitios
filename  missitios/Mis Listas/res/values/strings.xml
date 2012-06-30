@@ -2,9 +2,9 @@
 <resources>
     <string name="hello">Hello World, DondeReciclar!</string>
     <string name="select_action">Seleccionar</string>
-    <string name="app_name">Mis Listas</string>
+    <string name="app_name">Mis Guias</string>
     <string name="list_elements">Elementos de la listas</string>
-    <string name="list_list">Lista de Listas</string>
+    <string name="guide_list">Lista de Guias</string>
     <string name="edit_list">Elementos de la lista</string>
     <string name="no_list">No existe ninguna lista</string>
     <string name="menu_filter">Filtrar</string>
