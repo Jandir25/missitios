@@ -4,6 +4,7 @@
 	<classpathentry kind="src" path="gen"/>
 	<classpathentry kind="con" path="com.android.ide.eclipse.adt.ANDROID_FRAMEWORK"/>
 	<classpathentry exported="true" kind="con" path="com.android.ide.eclipse.adt.LIBRARIES"/>
-	<classpathentry kind="lib" path="C:/Users/Edu/workspace/Mis Listas/libs/com.android.DataFramework.jar"/>
+	<classpathentry kind="lib" path="C:/Archivos de programa/Android/android-sdk-windows/add-ons/addon_google_apis_google_inc_8/libs/com.android.DataFramework.jar"/>
+	<classpathentry kind="src" path="/MisGuias"/>
 	<classpathentry kind="output" path="bin/classes"/>
 </classpath>

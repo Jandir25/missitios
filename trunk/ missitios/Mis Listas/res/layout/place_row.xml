@@ -8,6 +8,7 @@
     <ImageView
         android:id="@+id/icon"
         android:paddingRight="10px"
+        android:paddingLeft="8px"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
 	
@@ -61,7 +62,13 @@
 			    android:layout_width="wrap_content"
 			    android:layout_height="wrap_content" android:textColor="#eeeeee"/>
 		    
-			    
+			<RatingBar android:id="@+id/ratingBarPlace" xmlns:android="http://schemas.android.com/apk/res/android"   
+				android:paddingLeft="10px"
+				android:stepSize="0.5"
+				style="?android:attr/ratingBarStyleSmall"
+				android:layout_width="wrap_content"
+			    android:layout_height="wrap_content" />
+			
 			<TextView android:id="@+id/puntuation" xmlns:android="http://schemas.android.com/apk/res/android"
 				android:paddingLeft="10px"
 				android:textSize="11px"

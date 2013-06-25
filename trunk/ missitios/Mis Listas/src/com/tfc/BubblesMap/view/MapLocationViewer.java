@@ -7,12 +7,12 @@ import android.view.MotionEvent;
 import com.google.android.maps.GeoPoint;
 import com.google.android.maps.MapActivity;
 import com.google.android.maps.MapView;
-import com.tfc.misguias.MisListas;
+import com.tfc.misguias.GuideMap;
 
 public class MapLocationViewer extends MapView {
 	
 	private BubblesOverlay overlay;
-	private MisListas mMapActivity;
+	private GuideMap mMapActivity;
 	private boolean move = false;
 	private GeoPoint gpoint00;
 		
@@ -26,7 +26,7 @@ public class MapLocationViewer extends MapView {
     }
     
     /**
-     * Constructor - Mapa que contiene las rutas
+     * Constructor - Mapa que contiene la guia
      * 
      * @param context Context
      * @param apiKey Clave de la API
@@ -34,7 +34,7 @@ public class MapLocationViewer extends MapView {
     
     public MapLocationViewer(Context context, String apiKey) {
 		super(context, apiKey);
-		mMapActivity = (MisListas) context;
+		mMapActivity = (GuideMap) context;
 		init();
 	}
 	

@@ -104,7 +104,11 @@ public class RowListAdapter extends BaseAdapter {
         
         TextView title = (TextView)v.findViewById(R.id.title);       
         title.setText(item.getString("title"));
-            
+        
+        TextView date = (TextView)v.findViewById(R.id.date);
+        String dateString = item.getString("date");//Revisar
+        date.setText(dateString.toString());
+                
         TextView marks = (TextView)v.findViewById(R.id.marks);
         
         if (selectId==id) {

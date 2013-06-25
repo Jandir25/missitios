@@ -28,6 +28,11 @@
 		
 			<TextView android:layout_height="wrap_content" android:layout_width="fill_parent" android:text="@string/contact" android:textSize="15px" android:textColor="#eeeeee" android:padding="5px" android:layout_marginTop="10px"></TextView>
 			<EditText android:layout_height="wrap_content" android:layout_width="fill_parent" android:layout_margin="5px" android:id="@+id/text_contact" android:text=""></EditText>
+
+			<RatingBar
+			    android:id="@+id/ratingBarPlace"
+			    android:layout_width="wrap_content"
+			    android:layout_height="wrap_content" />
 			
 			<TextView android:layout_height="wrap_content" android:layout_width="fill_parent" android:text="@string/more_info" android:textSize="15px" android:textColor="#eeeeee" android:padding="5px" android:layout_marginTop="10px"></TextView>
 			<EditText android:layout_height="wrap_content" android:layout_width="fill_parent" android:layout_margin="5px" android:id="@+id/text_more_info" android:text=""></EditText>

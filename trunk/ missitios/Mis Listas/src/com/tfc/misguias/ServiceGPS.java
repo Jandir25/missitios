@@ -11,7 +11,7 @@ import android.os.IBinder;
 
 public class ServiceGPS extends Service {
 
-	private static MisListas map;
+	private static GuideMap map;
 	
 	private LocationManager mLocationManager;
 	private MyLocationListener mLocationListener;
@@ -118,7 +118,7 @@ public class ServiceGPS extends Service {
     	return running;
     }
     
-    static void registerActivity(MisListas m) {
+    static void registerActivity(GuideMap m) {
     	map = m;
     }
     
