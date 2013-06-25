@@ -48,6 +48,7 @@ public class RowInfoLocationAdapter extends BaseAdapter {
 	
     private InfoLocation mInfoLocation;
     private int id = -1;
+    private long idSelected = -1;
     private int ownList = -1;
     private int lastPosition = 0;
 	
@@ -75,6 +76,15 @@ public class RowInfoLocationAdapter extends BaseAdapter {
         headers = new ArrayAdapter<String>(mInfoLocation, R.layout.list_header);
         
         this.id = id;
+    }
+    
+    public RowInfoLocationAdapter(InfoLocation mInfoLocation, long idSelected, int ownList)
+    {
+        this.mInfoLocation = mInfoLocation;
+        this.ownList = ownList;
+        headers = new ArrayAdapter<String>(mInfoLocation, R.layout.list_header);
+        
+        this.idSelected = idSelected;
     }
     
     
@@ -150,14 +160,17 @@ public class RowInfoLocationAdapter extends BaseAdapter {
 		
 		List<Map<String,?>> comments = new LinkedList<Map<String,?>>();
 		if (ownList!=-1){//no se le pasa ownlist, siempre es externo!
-			Entity e = new Entity("tbl_places", (long) id);
+			Entity e = new Entity("tbl_places", idSelected);
 			System.out.println(e.getString("name"));
 			System.out.println(e.getString("longitude"));
 			System.out.println(e.getString("latitude"));
 			System.out.println(e.getString("description"));
 			System.out.println(e.getString("address"));
 			System.out.println(e.getString("comment"));
-			comments.add(createCommentItem(e.getString("comment"), null));
+			//comments.add(createCommentItem(e.getString("comment"), null));
+			//addSection(mInfoLocation.getString(R.string.comments), new ArrayAdapter<String>(mInfoLocation,
+				//	R.layout.list_item_small, new String[] { e.getString("comment") }));
+			
 			
 		}
 		else{

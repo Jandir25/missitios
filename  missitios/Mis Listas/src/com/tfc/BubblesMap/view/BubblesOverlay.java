@@ -16,7 +16,7 @@ public class BubblesOverlay  extends Overlay {
     }
     
     /**
-     * Constructor - Crea el overlay donde se dibuja la ruta
+     * Constructor - Crea el overlay donde se dibujan los puntos
      * 
      * @param mlv MapLocationViewer
      */

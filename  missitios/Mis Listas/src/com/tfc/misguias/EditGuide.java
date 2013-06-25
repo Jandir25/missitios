@@ -9,15 +9,26 @@ import com.android.dataframework.Entity;
 import com.tfc.misguias.R;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.app.Dialog;
 import android.app.ListActivity;
+import android.content.DialogInterface;
+import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.ListView;
+import android.widget.TextView;
 
 public class EditGuide extends ListActivity {
 
+	private static final int ACTIVITY_SHOW = 0;
+	
 	private long searchIdCategory = -1;
 	private long searchIdGroup = -1;
 	private long searchDate = -1;
 	private long orderList = -1;
+	 
 	
 	private RowPlacesAdapter places;
 	private long selectId=-1;
@@ -32,7 +43,11 @@ public class EditGuide extends ListActivity {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		        
+		//Recuperamos clase singleton
+		SingletonDatosLista sgDatosLista = SingletonDatosLista.getInstance();
+		selectId = sgDatosLista.getIdGuide();
+			
+		
         setContentView(R.layout.list_edit);
         
         if (savedInstanceState != null) {
@@ -46,14 +61,16 @@ public class EditGuide extends ListActivity {
 				selectPosition = (extras.containsKey("selectPosition")) ? extras.getInt("selectPosition") : -1;
 				
 			} else {
-				searchIdCategory = -1;
-				searchIdGroup = -1;
-				searchDate = -1;
-				selectId = -1;
-				selectPosition = -1;
-				orderList = -1;
+				if (selectId==-1){//instanciado singleton habrá que eliminar esto
+					searchIdCategory = -1;
+					searchIdGroup = -1;
+					searchDate = -1;
+					selectId = -1;
+					selectPosition = -1;
+					orderList = -1;
+				}
 			}
-			final List <Entity> lists  = DataFramework.getInstance().getEntityList("tbl_places");
+			final List <Entity> guide  = DataFramework.getInstance().getEntityList("tbl_places");
         }
 	}
 	
@@ -65,14 +82,18 @@ public class EditGuide extends ListActivity {
     }
 	
 	/**
-     * Rellena la lista con las rutas de la base de datos
+     * Rellena la lista con los elementos de la base de datos
      * 
      */
     
     private void fillData() {
     	try {//tiene que ser un RowPlacesAdapter
-    		//List <Entity> places  = DataFramework.getInstance().getEntityList("tbl_places","list_id=" + selectId);
-	    	places = new RowPlacesAdapter(this, DataFramework.getInstance().getEntityList("tbl_places","list_id=" + selectId));
+    		//Recuperamos clase singleton
+    		SingletonDatosLista sgDatosLista = SingletonDatosLista.getInstance();
+    		selectId = sgDatosLista.getIdGuide();
+    		
+    		
+	    	places = new RowPlacesAdapter(this, DataFramework.getInstance().getEntityList("tbl_places","guide_id=" + selectId));
 	    	places.setSelectId(selectId);
 	        setListAdapter(places);
 	        if (selectId>=0) {
@@ -80,12 +101,54 @@ public class EditGuide extends ListActivity {
 	        }
 	        
 	        //TextView total = (TextView)findViewById(R.id.total_routes);
-	        this.setTitle(this.getString(R.string.list_elements) + " (" + places.getCount() + " " +  this.getString(R.string.of) + " " + DataFramework.getInstance().getEntityList("tbl_places","list_id=" + selectId).size() + ")");
+	        this.setTitle(this.getString(R.string.guide_elements) + " (" + places.getCount() + " " +  this.getString(R.string.of) + " " + DataFramework.getInstance().getEntityList("tbl_places","guide_id=" + selectId).size() + ")");
 	        	        
     	} catch (Exception e) {
     		System.out.println("ERROR: "+e.getMessage());
     	}
     	        
+    }
+    
+    /**
+     * Se ejecuta cuando se pulsa sobre un elemento de la guía
+     * 
+     * @param l ListView
+     * @param v View
+     * @param position Posicion
+     * @param id Identificador
+     * 
+     */
+    
+    @Override
+    protected void onListItemClick(ListView l, View v, int position, long id) {
+        super.onListItemClick(l, v, position, id);
+        
+        places.clearSelectId();
+        
+        selectId = ((Entity)places.getItem(position)).getId();
+              
+        places.setSelectId(selectId);
+        places.setViewSelectId(v);
+        
+        TextView n = (TextView) v.findViewById(R.id.name);
+		n.setTextColor(Color.rgb(0xea, 0xea,0x9c));
+        
+        showPlace(selectId);
+    }
+    
+    
+    /**
+     * Se ejecuta la nueva Actividad para mostrar el lugar
+     */
+    
+    private void showPlace(Long idSelected) {
+    	if (idSelected>=0) {
+    		Intent i = new Intent(this, InfoLocation.class);
+    		i.putExtra(DataFramework.KEY_ID, idSelected);
+    		i.putExtra("ownList", 1);
+    		i.putExtra("idSelected", idSelected);
+    		this.startActivityForResult(i, ACTIVITY_SHOW);
+    	}
     }
 
 	@Override

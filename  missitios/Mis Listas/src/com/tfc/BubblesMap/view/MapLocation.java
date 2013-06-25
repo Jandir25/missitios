@@ -18,12 +18,13 @@ import com.tfc.misguias.Utils;
 public class MapLocation {
 
 	public static final int TYPE_CURRENTPOSITION = 0;
-	public static final int TYPE_PUNTOLIMPIO = 1;
-	public static final int TYPE_PILAS = 2;
-	public static final int TYPE_DENUNCIA = 3;
-	public static final int TYPE_ROPA = 4;
-	public static final int TYPE_OTROS = 5;
-	public static final int TYPE_NEW = 6;
+	public static final int TYPE_UNKNOWN = 1;
+	public static final int TYPE_RESTAURANTE = 2;
+	public static final int TYPE_TIENDA = 3;
+	public static final int TYPE_INTERESANTE = 4;
+	public static final int TYPE_ROPA = 5;
+	public static final int TYPE_OTROS = 6;
+	public static final int TYPE_NEW = 7;
 	
 	public static final int PADDING_X = 10;
 	public static final int PADDING_Y = 8;
@@ -53,12 +54,14 @@ public class MapLocation {
      */
 	
 	public MapLocation(MapLocationViewer mapView, Location loc, int type) {
-		if (type==TYPE_PUNTOLIMPIO) {
-			this.mTitle = mapView.getContext().getString(R.string.punto_limpio);			
-		} else if (type==TYPE_PILAS) {
-			this.mTitle = mapView.getContext().getString(R.string.pilas);		
-		} else if (type==TYPE_DENUNCIA) {
-			this.mTitle = mapView.getContext().getString(R.string.denuncia);			
+		if (type==TYPE_UNKNOWN) {
+			this.mTitle = mapView.getContext().getString(R.string.sincategoria);			
+		} else if (type==TYPE_RESTAURANTE) {
+			this.mTitle = mapView.getContext().getString(R.string.restaurante);			
+		} else if (type==TYPE_TIENDA) {
+			this.mTitle = mapView.getContext().getString(R.string.tienda);		
+		} else if (type==TYPE_INTERESANTE) {
+			this.mTitle = mapView.getContext().getString(R.string.interesante);			
 		} else if (type==TYPE_ROPA) {
 			this.mTitle = mapView.getContext().getString(R.string.ropa);		
 		} else if (type==TYPE_OTROS) {
@@ -73,12 +76,14 @@ public class MapLocation {
 	}
 /** sobrecargamos el constructior metiendole un titulo ad hoc**/	
 	public MapLocation(MapLocationViewer mapView, Location loc, int type,String title) {
-		if (type==TYPE_PUNTOLIMPIO) {
-			this.mTitle = title;			
-		} else if (type==TYPE_PILAS) {
-			this.mTitle = mapView.getContext().getString(R.string.pilas);		
-		} else if (type==TYPE_DENUNCIA) {
-			this.mTitle = mapView.getContext().getString(R.string.denuncia);			
+		if (type==TYPE_UNKNOWN) {
+			this.mTitle = mapView.getContext().getString(R.string.sincategoria);				
+		} else if (type==TYPE_RESTAURANTE) {
+			this.mTitle = mapView.getContext().getString(R.string.restaurante);				
+		} else if (type==TYPE_TIENDA) {
+			this.mTitle = mapView.getContext().getString(R.string.tienda);		
+		} else if (type==TYPE_INTERESANTE) {
+			this.mTitle = mapView.getContext().getString(R.string.interesante);			
 		} else if (type==TYPE_ROPA) {
 			this.mTitle = mapView.getContext().getString(R.string.ropa);		
 		} else if (type==TYPE_OTROS) {
@@ -127,17 +132,23 @@ public class MapLocation {
 			mDrawIconSelected = null;
 			mShadowIcon = null;
 			break;
-		case TYPE_PUNTOLIMPIO:
+		case TYPE_UNKNOWN:
+			mDrawIcon = BitmapFactory.decodeResource(mMapLocationView.getResources(),R.drawable.mark5_off);
+			mDrawIconSelected = BitmapFactory.decodeResource(mMapLocationView.getResources(),R.drawable.mark5_on);
+			mShadowIcon = BitmapFactory.decodeResource(mMapLocationView.getResources(),R.drawable.markshadow);
+			break;
+			
+		case TYPE_RESTAURANTE:
 			mDrawIcon = BitmapFactory.decodeResource(mMapLocationView.getResources(),R.drawable.mark1_off);
 			mDrawIconSelected = BitmapFactory.decodeResource(mMapLocationView.getResources(),R.drawable.mark1_on);
 			mShadowIcon = BitmapFactory.decodeResource(mMapLocationView.getResources(),R.drawable.markshadow);
 			break;
-		case TYPE_PILAS:
+		case TYPE_TIENDA:
 			mDrawIcon = BitmapFactory.decodeResource(mMapLocationView.getResources(),R.drawable.mark2_off);
 			mDrawIconSelected = BitmapFactory.decodeResource(mMapLocationView.getResources(),R.drawable.mark2_on);
 			mShadowIcon = BitmapFactory.decodeResource(mMapLocationView.getResources(),R.drawable.markshadow);
 			break;
-		case TYPE_DENUNCIA:
+		case TYPE_INTERESANTE:
 			mDrawIcon = BitmapFactory.decodeResource(mMapLocationView.getResources(),R.drawable.mark3_off);
 			mDrawIconSelected = BitmapFactory.decodeResource(mMapLocationView.getResources(),R.drawable.mark3_on);
 			mShadowIcon = BitmapFactory.decodeResource(mMapLocationView.getResources(),R.drawable.markshadow);
@@ -218,12 +229,14 @@ public class MapLocation {
      */
 
 	public void setTitle(String t) {
-		if (mType==TYPE_PUNTOLIMPIO) {
-			this.mTitle = mMapLocationView.getContext().getString(R.string.punto_limpio) + " " + t;
-		} else if (mType==TYPE_PILAS) {
-			this.mTitle = mMapLocationView.getContext().getString(R.string.pilas) + " " + t;			
-		} else if (mType==TYPE_DENUNCIA) {
-			this.mTitle = mMapLocationView.getContext().getString(R.string.denuncia) + " " + t;			
+		if (mType==TYPE_UNKNOWN) {
+			this.mTitle = mMapLocationView.getContext().getString(R.string.sincategoria) + " " + t;
+		} else if (mType==TYPE_RESTAURANTE) {
+			this.mTitle = mMapLocationView.getContext().getString(R.string.restaurante) + " " + t;
+		} else if (mType==TYPE_TIENDA) {
+			this.mTitle = mMapLocationView.getContext().getString(R.string.tienda) + " " + t;			
+		} else if (mType==TYPE_INTERESANTE) {
+			this.mTitle = mMapLocationView.getContext().getString(R.string.interesante) + " " + t;			
 		} else if (mType==TYPE_ROPA) {
 			this.mTitle = mMapLocationView.getContext().getString(R.string.ropa) + " " + t;			
 		} else if (mType==TYPE_OTROS) {

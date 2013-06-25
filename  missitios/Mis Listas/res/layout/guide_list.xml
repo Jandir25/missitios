@@ -2,22 +2,23 @@
 
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
       android:orientation="vertical" android:layout_width="fill_parent"
-    	android:layout_height="fill_parent" android:background="#768d91">
+    	android:layout_height="fill_parent" android:background="#94ACFE">
     	    	
 	<LinearLayout android:orientation="vertical"
-		android:paddingTop="5px"
+		android:paddingTop="3px"
 		android:layout_width="fill_parent"
 		android:layout_height="fill_parent">
        
-	    <ListView android:id="@+id/android:list"
+	    <ListView
+	        android:id="@+id/android:list"
 	        android:layout_width="fill_parent"
 	        android:layout_height="fill_parent"
-	        android:cacheColorHint="#FF768d91"
-	         />
+	        android:cacheColorHint="#186FFE" />
+
 	  	<TextView 
 	  		android:id="@+id/android:empty"
 	  		android:gravity="center"
-	  		android:textSize="16px"
+	  		android:textSize="15px"
 	        android:layout_width="fill_parent"
 	        android:layout_height="fill_parent"
 	        android:textColor="#ffffff" 

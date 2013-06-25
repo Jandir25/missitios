@@ -57,7 +57,7 @@ public class GuideList extends ListActivity {
 	private static final int FILTER_ID = Menu.FIRST + 2;
 	//private static final int BACKUP_ID = Menu.FIRST + 4;
 	
-	//Es una lista de listas... habria que poner guias
+	//Es una lista de guias
 	private RowListAdapter lists;
 	private long selectId=-1;
 	private int selectPostion=-1;
@@ -315,13 +315,13 @@ public class GuideList extends ListActivity {
         case DIALOG_ITEM:
             return new AlertDialog.Builder(GuideList.this)
                 .setTitle(R.string.select_action)
-                .setItems(R.array.select_list_actions, new DialogInterface.OnClickListener() {
+                .setItems(R.array.select_guide_actions, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
                     	if (which==0) {
                             showList(selectId);
                         }
                     	else if (which==1) {
-                            editList(selectId);
+                            editGuide(selectId);
                         }
 		            	
                     }
@@ -889,7 +889,7 @@ public class GuideList extends ListActivity {
      * 
      */
     
-    private void editList(long idSelected) {
+    private void editGuide(long idSelected) {
     	if (idSelected>=0) {
     	    Intent iListEdit = new Intent(this, EditGuide.class);
     	    iListEdit.putExtra("selectId", idSelected);
@@ -968,7 +968,7 @@ public class GuideList extends ListActivity {
     
     private void showList(long idSelected) {
     	if (idSelected>=0) {
-    		Intent i = new Intent(this, MisListas.class);
+    		Intent i = new Intent(this, GuideMap.class);
     		i.putExtra(DataFramework.KEY_ID, idSelected);
     		this.startActivityForResult(i, ACTIVITY_SHOW);
     	}
@@ -1013,7 +1013,19 @@ public class GuideList extends ListActivity {
         TextView t = (TextView) v.findViewById(R.id.title);
 		t.setTextColor(Color.rgb(0xea, 0xea,0x9c));
         
-        showDialog(DIALOG_ITEM);
+        //showDialog(DIALOG_ITEM);
+		//Abre tabbed
+		SingletonDatosLista sdLista = SingletonDatosLista.getInstance();
+		sdLista.setIdGuide(selectId);
+		int ownList= 1;//Hay que declararlo de otra manera
+		sdLista.setOwnList(ownList);
+		
+		
+		Intent i = new Intent(this, GuideTab.class);
+		i.putExtra(DataFramework.KEY_ID, selectId);
+		i.putExtra("ownList", 1);
+		i.putExtra("idSelected", selectId);
+		this.startActivityForResult(i, ACTIVITY_SHOW);
     }
     
     @Override

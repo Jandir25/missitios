@@ -6,21 +6,10 @@
     android:padding="5px"
     android:background="#000000"
     >
-	<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-	    android:padding="3px" android:id="@+id/ll_menu" 
-	    android:background="@drawable/bg_corner"
-	    android:layout_width="fill_parent" android:layout_marginBottom="5px" android:orientation="horizontal" android:layout_gravity="center_horizontal" android:layout_height="50px">
-		
-		<ImageView android:layout_width="wrap_content" android:layout_height="wrap_content" android:src="@drawable/ico_1_on" android:layout_weight="1" android:id="@+id/group1"></ImageView>
-		<ImageView android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_weight="1" android:id="@+id/group2" android:src="@drawable/ico_2_off"></ImageView>
-		<ImageView android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_weight="1" android:id="@+id/group3" android:src="@drawable/ico_3_off"></ImageView>
-		<ImageView android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_weight="1" android:id="@+id/group4" android:src="@drawable/ico_4_off"></ImageView>
-		<ImageView android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_weight="1" android:id="@+id/group5" android:src="@drawable/ico_5_off"></ImageView>
-	
-	</LinearLayout>
 	
 	<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
 	    android:padding="3px" android:id="@+id/ll_info" 
+	    
 	    android:background="@drawable/bg_corner"
 	    android:layout_width="fill_parent" android:layout_marginBottom="5px" 
 	    android:orientation="horizontal" 
@@ -37,7 +26,7 @@
 		android:layout_weight="1" 
 		android:layout_height="45px"></TextView>
 	
-		<ImageView android:layout_width="wrap_content" android:layout_height="wrap_content" android:id="@+id/btn_more" android:src="@drawable/ico_more"></ImageView>
+		<ImageView android:layout_width="wrap_content" android:layout_height="wrap_content" android:id="@+id/btn_more" android:src="@drawable/ico_gomap" android:paddingRight="15px"></ImageView>
 </LinearLayout>
     
 	<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
@@ -76,7 +65,7 @@
 	    android:orientation="horizontal" 
 	    android:id="@+id/ll_pagination" 
 	    android:layout_gravity="center_horizontal">
-
+		<ImageView android:id="@+id/img_next_place" android:layout_width="wrap_content" android:layout_height="wrap_content" android:src="@drawable/ico_more"></ImageView>
 		<TextView android:layout_width="wrap_content" android:id="@+id/txt_found" android:text="97 encontrados" android:textColor="#000000" android:gravity="center" android:layout_height="fill_parent" android:layout_marginRight="5px" android:layout_weight="1"></TextView>
 		<ImageView android:id="@+id/img_page_left" android:layout_width="wrap_content" android:layout_height="wrap_content" android:src="@drawable/arrow_left"></ImageView>
 		<TextView android:layout_width="wrap_content" android:id="@+id/txt_page" android:text="Página 1/7" android:textColor="#000000" android:gravity="center" android:layout_height="fill_parent" android:layout_marginRight="5px" android:layout_marginLeft="5px"></TextView>

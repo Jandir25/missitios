@@ -148,6 +148,15 @@ public class MapLocationsManager {
     	return false; 
     }
     
+    //Finjiremos que se ha tocado la pantalla
+    public boolean setHitMapLocation(MapView mapView,MapLocation mLocation ) {
+    	selectedLocation = mLocation;
+    		
+		    	return false; 
+    }
+    
+    
+    
     private void changeMap() {   	
 		if (OnMapLocationClickListener!=null) {
 			OnMapLocationClickListener.OnMapChanged(
@@ -195,7 +204,7 @@ public class MapLocationsManager {
 	    		location.draw(canvas, mapView, shadow);
 	    	}
 			
-			// dibujar bocadillo
+			// dibujar bocadillo sólo si selected location esta vacio y el titulo esta vacio...
 	    	if ( ( selectedLocation != null) && (!selectedLocation.getTitle().equals(""))) {
 	    		selectedLocation.drawBubble(canvas, mapView, shadow);
 	    	}

@@ -2,6 +2,7 @@
 <database name="misGuiasTFC" version="2"> 
   <table name="tbl_guides" to-string="%title%">
     <field name="title" obligatory="true" type="text" size="256"/>
+    
     <field name="creator" type="foreign-key" foreign-table="tbl_users" />
     <field name="date" obligatory="true" type="text"/>
     <field name="category_id" obligatory="true" type="foreign-key" foreign-table="tbl_guide_category" />
@@ -13,7 +14,8 @@
     <field name="description" obligatory="true" type="text" />
     <field name="address" obligatory="true" type="text"/>
     <field name="puntuation" obligatory="true" type="float"/>
-    <field name="comment" obligatory="true" type="text"/>		
+    <field name="comment" obligatory="false" type="text"/>
+			
     <field name="type_id" type="foreign-key" foreign-table="tbl_types" />
     <field name="guide_id" type="foreign-key" foreign-table="tbl_guides" />
        

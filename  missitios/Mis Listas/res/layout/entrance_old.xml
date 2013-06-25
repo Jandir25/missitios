@@ -1,0 +1,250 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:background="#FFFFFF"    
+    >
+     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" 
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:background="@drawable/mapaguia">
+
+
+            <LinearLayout 
+                android:layout_height="fill_parent"
+                android:layout_width="fill_parent" 
+                android:layout_weight="1"
+                android:gravity="center" 
+                android:layout_marginTop="170dp"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:singleLine="true"
+                    android:text="@string/txt_wellcome"
+                    android:textColor="#FFFFFF"
+                    android:textSize="18sp"
+                    android:textStyle="bold" />
+                
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:singleLine="true"
+                    android:text="@string/txt_wellcome_advice"
+                    android:textColor="#FFFFFF"
+                    android:textSize="13sp"
+                    android:textStyle="bold" />
+
+            </LinearLayout>
+
+</LinearLayout>
+
+    
+    <TableLayout 
+	    xmlns:android="http://schemas.android.com/apk/res/android"
+		android:layout_width="fill_parent"
+		android:layout_height="fill_parent"
+		android:layout_weight="1"
+		android:background="#CCCCCC"
+	>
+
+        <TableRow
+            android:layout_width="wrap_content"
+            android:layout_marginBottom="0.8dp"
+            android:layout_weight="1"
+            android:background="#ffffff"
+            android:gravity="left"
+            android:paddingLeft="10px"
+            android:paddingRight="20px" >
+
+            <LinearLayout
+                xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:orientation="horizontal"
+             >
+
+				<Button 
+   					android:id="@+id/newguide" 
+   					android:layout_width="fill_parent" 
+    			 	android:layout_height="wrap_content"
+    				android:drawableLeft="@drawable/newguide"
+    				android:drawableRight="@drawable/go_right"
+    				android:text="@string/new_guide"/>
+                
+
+	             
+
+		 
+	
+            </LinearLayout>
+ 
+        </TableRow>
+
+		<TableRow
+            android:layout_marginBottom="0.8dp"
+            android:layout_weight="1"
+            android:background="#ffffff"
+            android:gravity="left"
+            android:paddingLeft="10px"
+            android:paddingRight="20px" >
+
+            <LinearLayout
+                xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:orientation="horizontal"
+                android:paddingBottom="0dp"
+                android:paddingTop="20dp" >
+
+                <ImageButton
+                    android:id="@+id/openguide"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/openlist"
+                    android:paddingRight="10dp"
+                    android:paddingTop="10dp" />
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical" >
+
+                    <TextView
+                        xmlns:android="http://schemas.android.com/apk/res/android"
+                        android:id="@+id/openlist"
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:paddingLeft="30dp"
+                        android:paddingTop="5dp"
+                        android:text="@string/open_guide"
+                        android:textColor="#000000"
+                        android:textSize="18dp" />
+
+                    <TextView
+                        xmlns:android="http://schemas.android.com/apk/res/android"
+                        android:id="@+id/open_guide_text"
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:paddingLeft="31dp"
+                        android:text="@string/new_guide_text"
+                        android:textColor="#9894A3"
+                        android:textSize="11dp" />
+                </LinearLayout>
+	              <LinearLayout
+	                    android:layout_width="fill_parent"
+	                    android:layout_height="fill_parent"
+	                    android:orientation="vertical" 
+	                    
+	                    android:paddingTop="15dp"	             
+	                    >
+
+		           <ImageView
+		               android:id="@+id/arrow3"
+		               android:layout_width="wrap_content"
+		               android:layout_height="wrap_content"
+		               android:layout_gravity="right"
+		               android:background="@drawable/go_right" />
+	
+	              </LinearLayout> 
+
+            </LinearLayout>
+ 
+        </TableRow>
+
+ 		<TableRow
+            android:layout_marginBottom="0.8dp"
+            android:layout_weight="1"
+            android:background="#ffffff"
+            android:gravity="left"
+            android:paddingLeft="10px"
+            android:paddingRight="20px" >
+
+            <LinearLayout
+                xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:orientation="horizontal"
+                android:paddingBottom="0dp"
+                android:paddingTop="20dp" >
+
+                <ImageButton
+                    android:id="@+id/settings"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/settings"
+                    android:paddingRight="10dp"
+                    android:paddingTop="10dp" />
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical" >
+
+                    <TextView
+                        xmlns:android="http://schemas.android.com/apk/res/android"
+                        android:id="@+id/settingstext"
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:paddingLeft="30dp"
+                        android:paddingTop="5dp"
+                        android:text="@string/settings"
+                        android:textColor="#000000"
+                        android:textSize="18dp" />
+
+                    <TextView
+                        xmlns:android="http://schemas.android.com/apk/res/android"
+                        android:id="@+id/settings_text"
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:paddingLeft="31dp"
+                        android:text="@string/settings_text"
+                        android:textColor="#9894A3"
+                        android:textSize="11dp" />
+                </LinearLayout>
+	              <LinearLayout
+	                    android:layout_width="fill_parent"
+	                    android:layout_height="fill_parent"
+	                    android:orientation="vertical" 
+	                    android:paddingTop="15dp"	             
+	                    >
+
+		           <ImageView
+		               android:id="@+id/arrow3"
+		               android:layout_width="wrap_content"
+		               android:layout_height="wrap_content"
+		               android:layout_gravity="right"
+		               android:paddingLeft="10dp"
+		               android:background="@drawable/go_right" />
+	
+	              </LinearLayout> 
+
+            </LinearLayout>
+ 
+        </TableRow>
+	</TableLayout>
+    
+    <TextView
+        android:id="@+id/txBienvenida"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:text="PFC Eduardo Castella 2012"
+        android:textColor="#000000"
+        android:textStyle="bold" 
+        android:textSize="13dp" />
+    
+    <TextView
+        android:id="@+id/txBienvenida"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:text="www.misguias.com"
+        android:textColor="#000000"
+        android:textStyle="bold" 
+        android:textSize="11dp" />
+    
+</LinearLayout>

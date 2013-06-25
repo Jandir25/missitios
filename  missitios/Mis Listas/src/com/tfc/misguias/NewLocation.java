@@ -42,6 +42,7 @@ import android.view.View.OnClickListener;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.RatingBar;
 import android.widget.Spinner;
 import android.widget.TextView;
 
@@ -65,13 +66,14 @@ public class NewLocation extends Activity {
 	private EditText tName, tCommentAddress, tDescription, tContact, tMoreInfo;
 	private ImageView photo;
 	private Spinner spType;
+	private RatingBar rbPlace;
 	
 	private double mLatitude, mLongitude;
 	
 	private ProgressDialog pd = null;
 	
 	//ECS
-	private long idList = -1;
+	private long idGuide = -1;
 	private List <Entity> types;
 
 	
@@ -118,8 +120,8 @@ public class NewLocation extends Activity {
         
 		if (savedInstanceState != null) {
 			if (savedInstanceState.containsKey("id")) id = savedInstanceState.getInt("id");
-			//ECS Getting the idList 
-			if (savedInstanceState.containsKey("idList")) idList = savedInstanceState.getLong("idList");
+			//ECS Getting the idGuide 
+			if (savedInstanceState.containsKey("idGuide")) idGuide = savedInstanceState.getLong("idGuide");
 			if (savedInstanceState.containsKey("location")) {
 				mLocation = (Location) savedInstanceState.get("location");
 				mLatitude = mLocation.getLatitude();
@@ -132,7 +134,7 @@ public class NewLocation extends Activity {
 			Bundle extras = getIntent().getExtras();  
 			if (extras != null) {
 				id = (extras.containsKey("id")) ? extras.getInt("id") : -1;
-				idList = (extras.containsKey("idList")) ? extras.getLong("idList") : -1;
+				idGuide = (extras.containsKey("idGuide")) ? extras.getLong("idGuide") : -1;
 				if (extras.containsKey("location")) {
 					mLocation = (Location)extras.get("location");
 					mLatitude = mLocation.getLatitude();
@@ -151,6 +153,7 @@ public class NewLocation extends Activity {
 		tContact = (EditText) this.findViewById(R.id.text_contact);
 		tMoreInfo = (EditText) this.findViewById(R.id.text_more_info);
 		spType = (Spinner) this.findViewById(R.id.type);
+		rbPlace = (RatingBar) this.findViewById(R.id.ratingBarPlace);
 		//ECS Spinner formed by the table_types
 		/*ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(
                 this, R.array.select_type_points, android.R.layout.simple_spinner_item);
@@ -223,7 +226,7 @@ public class NewLocation extends Activity {
         pd.show();
         //sustituiremos el threadUpLocation por una insercion en la bbdd
         threadUpload = new ThreadUploadLocation(this, id);
-        threadUpload.setIdList(idList);
+        threadUpload.setIdList(idGuide);
         threadUpload.setLatitude(mLatitude);
         threadUpload.setLongitude(mLongitude);
         threadUpload.setAddress(mAddress);
@@ -233,7 +236,7 @@ public class NewLocation extends Activity {
         threadUpload.setContact(tContact.getText().toString());
         threadUpload.setMoreInfo(tMoreInfo.getText().toString());
         threadUpload.setType(spType.getSelectedItemPosition()+1);        
-
+        threadUpload.setPuntuation(rbPlace.getRating());
     	Thread thread = new Thread(threadUpload);
 		thread.start();    
         

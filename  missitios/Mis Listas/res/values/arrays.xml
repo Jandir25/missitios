@@ -13,6 +13,14 @@
         <item>Otro</item>
     </string-array>
     
+    <string-array name="select_category_guide">
+        <item>Restaurantes</item>
+        <item>Tiendas</item>
+        <item>Lugares de interes</item>
+        <item>Ocio</item>
+        <item>Otros</item>
+    </string-array>
+    
     <string-array name="select_action_photo">
         <item>Ver imagen</item>
         <item>Borrar</item>
@@ -22,11 +30,11 @@
         <item>Editar</item>
         <item>Borrar</item>
     </string-array>
-    <string-array name="select_list_actions">
-        <item>Mostrar</item>
+    <string-array name="select_guide_actions">
+        <item>Mostrar Guía</item>
+        <item>Ver lugares Guía</item>
         <item>Editar</item>
         <item>Compartir</item>
-        <item>Ver Elementos</item>
     </string-array>
        <string-array name="filter_date">
         <item>Today</item>

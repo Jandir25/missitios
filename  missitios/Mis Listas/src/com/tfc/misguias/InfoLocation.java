@@ -27,6 +27,7 @@ import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;
 import org.xmlpull.v1.XmlPullParserFactory;
 
+import com.android.dataframework.DataFramework;
 import com.android.dataframework.Entity;
 import com.tfc.misguias.R;
 
@@ -46,6 +47,7 @@ import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -64,6 +66,7 @@ public class InfoLocation extends ListActivity {
 	private static final int HEIGHT_IMAGE = 250;
 	
 	private int id = -1;
+	private long idSelected = -1;
 	private int ownList = -1;
 	private String httpImage = "";
 	private Location mLocationGPS = null;
@@ -71,7 +74,8 @@ public class InfoLocation extends ListActivity {
 	private String mLatitude = "0", mLongitude = "0";
 	
 	private TextView locTitle;
-	private ImageView icoLoc;
+	private ImageView icoLoc,icoGoMap;
+	private int fromMap	=	-1;
 	
 	private EditText mComment;
 	
@@ -174,7 +178,9 @@ public class InfoLocation extends ListActivity {
 			}
 			if (savedInstanceState.containsKey("latitudeGPS")) mLatitudeGPS = savedInstanceState.getDouble("latitudeGPS");
 			if (savedInstanceState.containsKey("ownList")) ownList = savedInstanceState.getInt("ownList");
+			if (savedInstanceState.containsKey("idSelected")) idSelected = savedInstanceState.getLong("idSelected");
 			if (savedInstanceState.containsKey("longitudeGPS")) mLongitudeGPS = savedInstanceState.getDouble("longitudeGPS");
+			if (savedInstanceState.containsKey("fromMap")) fromMap = savedInstanceState.getInt("fromMap");
 		} else {
 			Bundle extras = getIntent().getExtras();  
 			if (extras != null) {
@@ -186,8 +192,11 @@ public class InfoLocation extends ListActivity {
 						mLongitudeGPS = mLocationGPS.getLongitude();
 					}
 				}
+				
 				id = (extras.containsKey("id")) ? extras.getInt("id") : -1;
+				idSelected = (extras.containsKey("idSelected")) ? extras.getLong("idSelected") : -1;
 				ownList = (extras.containsKey("ownList")) ? extras.getInt("ownList") : -1;
+				if (extras.containsKey("fromMap")) fromMap = extras.getInt("fromMap");
 			    if (extras.containsKey("latitudeGPS")) mLatitudeGPS = extras.getDouble("latitudeGPS");
 				if (extras.containsKey("longitudeGPS")) mLongitudeGPS = extras.getDouble("longitudeGPS");
 			} else {
@@ -198,13 +207,14 @@ public class InfoLocation extends ListActivity {
 		locTitle = (TextView) this.findViewById(R.id.loc_title);
 		
 		icoLoc = (ImageView) this.findViewById(R.id.ico_loc);
+		
+		icoGoMap = (ImageView) this.findViewById(R.id.btn_goMap);
 				
 		llMoreAction = (LinearLayout) this.findViewById(R.id.ll_more_actions);
 		
 		fillListView();
 		
 		ImageView icoGoto = (ImageView)findViewById(R.id.ico_goto);
-		
 		icoGoto.setOnClickListener(new OnClickListener() {
 
 			@Override
@@ -220,6 +230,22 @@ public class InfoLocation extends ListActivity {
 		    	} else {
 		    		Utils.showShortMessage(InfoLocation.this, InfoLocation.this.getString(R.string.no_gps));
 		    	}
+			}
+			
+		});
+		
+		
+		
+		ImageView icoGoMap = (ImageView)findViewById(R.id.btn_goMap);
+		
+		icoGoMap.setOnClickListener(new OnClickListener() {
+
+			@Override
+			public void onClick(View v) {
+				//Recuperamos clase singleton
+				SingletonDatosLista sgDatosLista = SingletonDatosLista.getInstance();
+				sgDatosLista.setIdSelected(idSelected);
+				goToPlace(mLatitude,mLongitude);
 			}
 			
 		});
@@ -240,6 +266,20 @@ public class InfoLocation extends ListActivity {
 		
     }
     
+    private void goToPlace(String mLatitude,String mLongitude) {
+    	if (mLatitude != null) {
+    	    if (fromMap==0){
+    	    	finish();
+    	    }else{
+    	    	Intent iOpenMap = new Intent(this, GuideTab.class);
+    	    	iOpenMap.putExtra("tabSelected", 1);    	    
+    	    	iOpenMap.putExtra("selectedPlace", idSelected);
+    	    	startActivity(iOpenMap);
+    	    }
+    	}
+    }
+    
+    
     private OnClickListener OnClickListener_IcoShare = new OnClickListener()
     {	      	
 		public void onClick(View v)
@@ -248,12 +288,12 @@ public class InfoLocation extends ListActivity {
 			SendIntent.putExtra(Intent.EXTRA_SUBJECT, gListActivity.getString(R.string.subject_share)); 
 			SendIntent.putExtra(Intent.EXTRA_TEXT, gListActivity.getString(R.string.text_share) + " http://www.dondereciclar.com/index.php?id=" + id);
 			SendIntent.setType("text/plain");
-			startActivity(Intent.createChooser(SendIntent, "MisListas"));
+			startActivity(Intent.createChooser(SendIntent, "GuideMap"));
         }
     };
     
     private void fillListView() {
-		adapter = new RowInfoLocationAdapter(this, id,ownList);
+		adapter = new RowInfoLocationAdapter(this,idSelected,ownList);
 		adapter.createListView();
 		setListAdapter(adapter);
     }
@@ -263,12 +303,19 @@ public class InfoLocation extends ListActivity {
 		List<Map<String,?>> infoLocation = new LinkedList<Map<String,?>>();
 		Bitmap bmpImage = null;
 		if (ownList != -1){
-			Entity e = new Entity("tbl_places", (long) id);
+			if (id!=-1){
+				idSelected = (long)id;//Para el acceso desde la lista de lugares
+			}
+			Entity e = new Entity("tbl_places", idSelected);
+			int idIcon = this.getResources().getIdentifier(
+					"com.tfc.misguias:drawable/ico_"+e.getInt("type_id")+"_on", null, null);
+			icoLoc.setImageResource(idIcon);
 			System.out.println(e.getString("name"));
 			System.out.println(e.getString("longitude"));
 			System.out.println(e.getString("latitude"));
 			System.out.println(e.getString("description"));
 			System.out.println(e.getString("address"));
+			System.out.println(e.getString("comment"));
 			/*tvInfo.setText(e.getString("address")+" "+e.getString("description"));*/
 			locTitle.setText(e.getString("name"));
 			mLatitude = e.getString("latitude");
@@ -288,6 +335,11 @@ public class InfoLocation extends ListActivity {
 			icoLoc.setImageResource(idGroup);*/
 			infoLocation.add(RowInfoLocationAdapter.createInfoItem(this.getString(R.string.address), e.getString("address")));
 			infoLocation.add(RowInfoLocationAdapter.createInfoItem(this.getString(R.string.description), e.getString("description")));
+			infoLocation.add(RowInfoLocationAdapter.createInfoItem(this.getString(R.string.comment), e.getString("comment")));
+			adapter.addSection(this.getString(R.string.info_point), new SimpleAdapter(this, infoLocation, R.layout.list_complex,
+					new String[] { RowInfoLocationAdapter.INFOITEM_TITLE, RowInfoLocationAdapter.INFOITEM_INFO }, new int[] { R.id.list_complex_title, R.id.list_complex_info }));
+			adapter.addSection(this.getString(R.string.comments), new ArrayAdapter<String>(this,
+					R.layout.list_item_small, new String[] { this.getString(R.string.no_comments) }));
 			return 0;
 		}		
 		

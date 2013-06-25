@@ -7,6 +7,12 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.GregorianCalendar;
+import java.util.SimpleTimeZone;
 
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
@@ -30,10 +36,12 @@ import android.widget.Toast;
 import com.tfc.misguias.R;
 import com.google.android.maps.GeoPoint;
 
+
+
 public class Utils {
 	
-	static private String mPackage = "com.geekcool.dondereciclar";
-
+	static private String mPackage = "com.tfc.misguias";
+	static public Context context = null;
 	 /**
      * Selecciona paquete en uso
      * 
@@ -293,6 +301,93 @@ public class Utils {
 		
 		return -1;
 		
+	}
+	/*Transform date*/
+	static public String formatHumanDate(String date) {
+		if (date.length()<15) {
+			return date;
+		}
+		else if (formatDate(date).equals(formatDate(now()))) {
+			return context.getResources().getString(R.string.today);
+		} else if (formatDate(date).equals(formatDate(plusDate(-1)))) {
+			return context.getResources().getString(R.string.yesterday);			
+		} else if (formatDate(date).equals(formatDate(plusDate(-2)))) {
+			return context.getResources().getString(R.string.two_days_ago);
+		} else if (formatDate(date).equals(formatDate(plusDate(-3)))) {
+			return context.getResources().getString(R.string.three_days_ago);
+		}
+		return formatDate(date);
+	}
+	
+	static public String plusDate(int days) {
+		SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd 00:00:00");
+		Date fch = new Date();
+		Calendar cal = new GregorianCalendar();
+		cal.setTimeInMillis(fch.getTime());
+		cal.add(Calendar.DATE, days);
+		
+		Date end = new Date(cal.getTimeInMillis());
+		
+		return formatter.format(end);
+	} 
+	
+	static public String plusSeconds(String date, int seconds) throws ParseException {
+		
+		GregorianCalendar timeUTC = new GregorianCalendar(new SimpleTimeZone(0,"GMT+0")); 
+		GregorianCalendar timeNow = new GregorianCalendar();
+		int difference = timeNow.get(Calendar.HOUR_OF_DAY) - timeUTC.get(Calendar.HOUR_OF_DAY);
+		
+		SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+
+		Date fch = formatter.parse(date);
+		
+		Calendar cal = new GregorianCalendar();
+		cal.setTimeInMillis(fch.getTime());
+		cal.add(Calendar.SECOND, seconds);
+		
+		cal.add(Calendar.HOUR_OF_DAY, -difference);
+		
+		Date end = new Date(cal.getTimeInMillis());
+		
+		String d = formatter.format(end);
+		String[] chains = d.split(" ");
+		String out = chains[0] + "T" + chains[1] + "Z";
+		
+		return  out;
+	} 
+	
+    /**
+     * Devuelve la fecha actual
+     * @param format Formato
+     * @retrun Fecha
+     * 
+     */
+	
+	
+	static public String formatDate(String date) {
+		String out = "";
+		String[] pieces = date.split(" ");
+		String[] pieceDate = pieces[0].split("-");
+		String day = pieceDate[2];
+		String month = pieceDate[1];
+		String year = pieceDate[0];
+		int posDay = Integer.parseInt(context.getResources().getString(R.string.position_date_day));
+		int posMonth = Integer.parseInt(context.getResources().getString(R.string.position_date_month));
+		int posYear = Integer.parseInt(context.getResources().getString(R.string.position_date_year));
+		for (int i=0; i<=2; i++) {
+			if (i==posDay) out += day;
+			if (i==posMonth) out += month;
+			if (i==posYear) out += year;
+			if (i<2) out += context.getResources().getString(R.string.separate_date);
+		}
+		return out;
+	}
+	
+	
+	static public String now() {
+		SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		Date currentTime = new Date();
+		return formatter.format(currentTime);
 	}
 	
 	static public String getNameForImage() {

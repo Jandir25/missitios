@@ -3,8 +3,23 @@
     <string name="hello">Hello World, DondeReciclar!</string>
     <string name="select_action">Seleccionar</string>
     <string name="app_name">Mis Guias</string>
-    <string name="list_elements">Elementos de la listas</string>
+    <string name="guide_elements">Elementos de la Guía</string>
     <string name="guide_list">Lista de Guias</string>
+     <string name="txt_wellcome">MisGuias</string>
+    <string name="new_guide_text">Crea una nueva guía con tus sitios</string>
+	<string name="open_guide">Abre Guía</string>
+	<string name="position_date_day">2</string>
+	<string name="position_date_month">1</string>
+	<string name="position_date_year">0</string>
+	<string name="separate_date">-</string>
+	<string name="today">Today</string>
+	<string name="yesterday">Yesterday</string>
+	<string name="two_days_ago">2 days ago</string>
+	<string name="three_days_ago">3 days ago</string>
+	<string name="settings">Configuración</string>
+	<string name="settings_text">Configura tus preferencias</string>
+	<string name="open_guide_text">Abre una guía y descubre sitios cercanos</string>
+     <string name="txt_wellcome_advice">Crea tus propias guías y compártelas</string>
     <string name="edit_list">Elementos de la lista</string>
     <string name="no_list">No existe ninguna lista</string>
     <string name="menu_filter">Filtrar</string>
@@ -16,11 +31,16 @@
     <string name="my_location">Mi ubicación</string>
     <string name="new_poi">Nuevo punto</string>
     <string name="no_gps">Debe tener el GPS activado para poder buscar su ubicación</string>
+    <string name="no_gps_near">Debe tener el GPS activado para para encontrar el punto más cercano</string>
     <string name="metres">metros</string>
     <string name="kilometres">km</string>
     <string name="punto_limpio">Punto Limpio</string>
+    <string name="restaurante">Restaurante</string>
+    <string name="sincategoria">Sin categoria</string>
+    <string name="tienda">Tienda</string>
     <string name="pilas">Reciclaje de pilas</string>
     <string name="denuncia">Denuncia ambiental</string>
+    <string name="interesante">Punto interesante</string>
     <string name="ropa">Ropa</string>
     <string name="otro">Otro</string>
     <string name="actions">Acciones</string>
@@ -34,6 +54,7 @@
     <string name="comment_address">Comentario a la dirección</string>
     <string name="comment_name">Nombre del lugar</string>
     <string name="description">Descripción</string>
+    <string name="comment">Comentario</string>
     <string name="contact">Contacto</string>
     <string name="more_information">Más información</string>
     <string name="info_new_poi">Información del punto</string>
@@ -129,7 +150,7 @@
 	<string name="all_points">Mostrar todos</string>
 	
 	<string name="no_search">No se ha encontrado ningún resultado</string>
-	
+	<string name="lastLocation">No hay lugares más alejados</string>
 	<string name="you_say">Quiso decir</string>
 	
 	<string name="msg_nouser">Debe ser usuario de DondeReciclar.com para poder usar esta opción. Por favor revisa las preferencias e introduce los datos de usuario o date de alta</string>
@@ -167,6 +188,9 @@
 	<string name="pre_inappropriate_body">URL del POI</string>
 	
 	<string name="post_inappropriate_body">Por favor explique a continuación con la máxima precisión el error que ha encontrado en el punto que estaba visitando.</string>
+	<string name="new_guide">Nueva Guia</string>
+    <string name="new_guide_title">Nombre de la Guía</string>
+	<string name="guide_title_comment">Elije un nombre descriptivo</string>
 	
 	
 </resources>

@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
+import android.widget.RatingBar;
 import android.widget.TextView;
 
 import com.android.dataframework.DataFramework;
@@ -23,6 +24,7 @@ public class RowPlacesAdapter extends BaseAdapter {
     private List<Entity> elements; 
     private long selectId = -1;
     private View viewSelectId = null;
+    private RatingBar ratingBarPlace = null;
 	
     /**
      * Constructor - Adaptador que crea la vista de cada una de las
@@ -37,8 +39,7 @@ public class RowPlacesAdapter extends BaseAdapter {
         this.mContext = mContext;
         this.elements = elements;
        
-    }
-    
+    }    
     
 	public int getPositionById(long id) {
         for (int i=0; i<getCount(); i++) {
@@ -48,10 +49,16 @@ public class RowPlacesAdapter extends BaseAdapter {
         }
         return -1;
 	}
-    
-    
-    
-    
+        
+	public int getPositionById(int id) {
+        for (int i=0; i<getCount(); i++) {
+        	if ( ((Entity)getItem(i)).getId() == id ) {
+        		return i;
+        	}
+        }
+        return -1;
+	}
+	
     
     /**
      * Numero de elementos en la lista
@@ -84,7 +91,7 @@ public class RowPlacesAdapter extends BaseAdapter {
     /**
      * Devuelve la vista de la fila
      * 
-     * @param position Posicion del elemento en la lista
+     * @param position Posicion del elemento en la guía
      * @param convertView View
      * @param parent ViewGroup
      * @return Vista
@@ -97,7 +104,7 @@ public class RowPlacesAdapter extends BaseAdapter {
 		long type_id = item.getEntity("type_id").getId();
         View v = View.inflate(mContext, R.layout.place_row, null);
 
-        Drawable d = mContext.getResources().getDrawable(mContext.getResources().getIdentifier("com.tfc.misguias:drawable/category_" + type_id, null, null));
+        Drawable d = mContext.getResources().getDrawable(mContext.getResources().getIdentifier("com.tfc.misguias:drawable/place_type_" + type_id, null, null));
         
         ImageView img = (ImageView)v.findViewById(R.id.icon);
         img.setImageDrawable(d);
@@ -113,6 +120,9 @@ public class RowPlacesAdapter extends BaseAdapter {
         
         TextView puntuation = (TextView)v.findViewById(R.id.puntuation);       
         puntuation.setText(item.getString("puntuation"));
+        
+        RatingBar ratingBarPlace = (RatingBar)v.findViewById (R.id.ratingBarPlace);
+        ratingBarPlace.setRating(item.getFloat("puntuation"));
             
         
         if (selectId==id) {

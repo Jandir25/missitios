@@ -47,13 +47,17 @@ public class ThreadUploadLocation implements Runnable {
 
 	private String commentAddress, description, contact, moreInfo;
 	private int type;
+
+
+
 	private double latitude, longitude;
+	private float puntuation;
 	
 	private String mPathFilenameTemp = "";
 	private String mFilenameTemp = "";
 	
 	private int id = -1;
-	private long idList;
+	private long idGuide;
 	
 
 
@@ -61,7 +65,7 @@ public class ThreadUploadLocation implements Runnable {
      * Constructor - Este Thread exporta a diferentes formatos
      * 
      * @param mActivity Actividad
-     * @param idList Id Lista
+     * @param idGuide Id Lista
      */
 	
 	public ThreadUploadLocation(NewLocation mActivity, int id) {
@@ -264,10 +268,10 @@ public class ThreadUploadLocation implements Runnable {
 		ent.setValue("longitude", longitude);
 		ent.setValue("description", description);
 		ent.setValue("address", address);
-		ent.setValue("puntuation", 1);//Punctuation system missing 
+		ent.setValue("puntuation", puntuation);//Punctuation system added 15/07
 		ent.setValue("type_id", type);
-		ent.setValue("list_id", idList);
-		ent.setValue("user_id", 1);//User Info missing 
+		ent.setValue("guide_id", idGuide);
+		//ent.setValue("user_id", 1);//User Info missing 
 		if (ent.save()) {
 			handler.sendEmptyMessage(1);
 		} else {
@@ -305,9 +309,9 @@ public class ThreadUploadLocation implements Runnable {
 				bm2.compress(CompressFormat.JPEG, 90, out) ;
     			out.close() ;
 			} catch (FileNotFoundException e) {
-				Log.e("MisListas","FileNotFoundException generated when resized") ;
+				Log.e("GuideMap","FileNotFoundException generated when resized") ;
 			} catch (IOException e) {
-				Log.e("MisListas","IOException generated when resized") ;
+				Log.e("GuideMap","IOException generated when resized") ;
 			}
 			
 
@@ -402,14 +406,21 @@ public class ThreadUploadLocation implements Runnable {
 	}
 	
     public long getIdList() {
-		return idList;
+		return idGuide;
 	}
 
 	public void setIdList(long idList) {
-		this.idList = idList;
+		this.idGuide = idList;
 	}
 	
+	public float getPuntuation() {
+		return puntuation;
+	}
 	
+	public void setPuntuation(float rating) {
+		this.puntuation=rating;
+		
+	}
 	private Handler handler = new Handler() {
 		@Override
 		public void handleMessage(Message msg) {
@@ -427,5 +438,9 @@ public class ThreadUploadLocation implements Runnable {
 			}
 		}
 	};
+
+
+
+
 	
 }
