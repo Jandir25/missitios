@@ -84,7 +84,7 @@
 				    android:paddingLeft="10dp"
 				    android:paddingRight="10dp"
 				    android:paddingTop="20dp"
-				    android:text="@string/open_guide"
+				    android:text="@string/my_guides"
 				    android:textSize="15sp" />
 
 				<View
@@ -93,11 +93,11 @@
     				android:background="@android:color/darker_gray"/>                
 
 				<Button
-				    android:id="@+id/settings"
+				    android:id="@+id/categories"
 				    android:layout_width="fill_parent"
 				    android:layout_height="wrap_content"
 				    android:background="@null"
-				    android:drawableLeft="@drawable/settings"
+				    android:drawableLeft="@drawable/openlist"
 				    android:drawableRight="@drawable/go_right"
 				    android:gravity="left|center_vertical"
 				    android:drawablePadding="20dp"
@@ -105,7 +105,7 @@
 				    android:paddingLeft="10dp"
 				    android:paddingRight="10dp"
 				    android:paddingTop="20dp"
-				    android:text="@string/settings"
+				    android:text="@string/categories"
 				    android:textSize="15sp" />
 
 				<View
