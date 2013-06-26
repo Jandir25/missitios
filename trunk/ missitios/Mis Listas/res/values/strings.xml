@@ -3,6 +3,9 @@
     <string name="hello">Hello World, DondeReciclar!</string>
     <string name="select_action">Seleccionar</string>
     <string name="app_name">Mis Guias</string>
+    <string name="my_guides">Mis Guias</string>
+    <string name="categories">Categorías</string>
+    <string name="guide_categories">Categorías de Guías</string>
     <string name="guide_elements">Elementos de la Guía</string>
     <string name="guide_list">Lista de Guias</string>
      <string name="txt_wellcome">MisGuias</string>

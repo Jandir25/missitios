@@ -27,6 +27,7 @@ public class MisGuias extends Activity{
 	private static final int ACTIVITY_OPENGUIDE = 4;
 	private static final int ACTIVITY_GUIDELIST = 5;
 	private static final int ACTIVITY_CREATEGUIDE = 6;
+	private static final int ACTIVITY_SHOWCATEGORIES = 1;
     /**
      * Crea una nueva ventana de dialogo
      * 
@@ -95,6 +96,13 @@ public class MisGuias extends Activity{
     		this.startActivityForResult(i, ACTIVITY_SHOWGUIDE);
     	
     }
+    
+	/**Called when open a category*/
+    private void showCategories() {
+    		Intent i = new Intent(this, GuideCategories.class);
+    		this.startActivityForResult(i, ACTIVITY_SHOWCATEGORIES);
+    	
+    }
 
 	/**Called when create a guide*/
     private void createGuide() {
@@ -130,6 +138,15 @@ public class MisGuias extends Activity{
 			}			
 		});
 		
+        Button btnCategory = (Button) this.findViewById(R.id.categories);        
+        btnCategory.setOnClickListener(new OnClickListener() {
+
+			@Override
+			public void onClick(View v) {				
+				showCategories();				
+			}			
+		});
+        
 		btnNew.setOnTouchListener(new OnTouchListener() {
 
 			@Override
