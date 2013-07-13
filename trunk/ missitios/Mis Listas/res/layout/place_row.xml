@@ -3,39 +3,58 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
 	android:orientation="horizontal" android:layout_width="fill_parent"
 	android:layout_height="fill_parent"
-	android:paddingTop="5px" android:paddingBottom="5px">
+	android:paddingTop="5dp" android:paddingBottom="5dp">
 
     <ImageView
         android:id="@+id/icon"
-        android:paddingRight="10px"
-        android:paddingLeft="8px"
+        android:paddingRight="5dp"
+        android:paddingLeft="3dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
 	
-	<LinearLayout android:orientation="vertical"
-		android:layout_width="fill_parent"
-		android:layout_height="wrap_content">
+	<LinearLayout
+	    style="@drawable/go_right"
+	    android:layout_width="fill_parent"
+	    android:layout_height="wrap_content"
+	    android:orientation="vertical" >
+		
+		<LinearLayout android:orientation="horizontal"
+			android:layout_width="fill_parent"
+			android:layout_height="wrap_content">
+			
+			<RatingBar android:id="@+id/ratingBarPlace" xmlns:android="http://schemas.android.com/apk/res/android"   
+				android:paddingLeft="3dp"
+				android:stepSize="0.5"
+				style="?android:attr/ratingBarStyleSmall"
+				android:layout_width="wrap_content"
+			    android:layout_height="wrap_content" />
+		</LinearLayout>	
 		
 		<LinearLayout android:orientation="horizontal"
 			android:layout_width="fill_parent"
 			android:layout_height="wrap_content">
 			
 			<TextView android:id="@+id/name" xmlns:android="http://schemas.android.com/apk/res/android"
-			    android:textSize="15px"
+			    android:textSize="13dp"
 				android:textStyle="bold"
 				android:layout_width="fill_parent"
 			    android:layout_height="wrap_content"
 			    android:layout_weight="1"
-			    android:textColor="#ffffff"/>
-			    
+			    android:textColor="#FF8000"/>
+			
+		</LinearLayout>
+		
+		<LinearLayout android:orientation="horizontal"
+			android:layout_width="fill_parent"
+			android:layout_height="wrap_content">
+					    
 			<TextView android:id="@+id/date"
-			    android:textSize="11px"
+			    android:textSize="9dp"
 				android:layout_width="wrap_content"
 			    android:layout_height="wrap_content" 
-			    android:text="hoy"
-			    android:layout_marginLeft="10px"
-			    android:layout_marginRight="7px"
-			    android:textColor="#ffffff" />
+			    android:layout_marginLeft="10dp"
+			    android:layout_marginRight="7dp"
+			    android:textColor="#848484" />
 			    
 		</LinearLayout>
 		
@@ -44,41 +63,28 @@
 			android:layout_height="wrap_content">
 	
 		<TextView android:id="@+id/description" xmlns:android="http://schemas.android.com/apk/res/android"
-				android:paddingLeft="0px"
-				android:textSize="11px"
+				android:paddingLeft="2dp"
+				android:paddingRight="2dp"
+				android:textSize="9dp"
 				android:textStyle="italic"
 			    android:layout_width="wrap_content"
-			    android:layout_height="wrap_content" android:textColor="#eeeeee"/>
+			    android:layout_height="wrap_content" android:textColor="#00000c"/>
 		</LinearLayout>
 		    
 		<LinearLayout android:orientation="horizontal"
-			android:paddingTop="5px"
+			android:paddingTop="3dp"
 			android:layout_width="fill_parent"
 			android:layout_height="wrap_content">
 
 			<TextView android:id="@+id/address" xmlns:android="http://schemas.android.com/apk/res/android"
-				android:textSize="11px"
+				android:textSize="8dp"
 				android:textStyle="italic"
 			    android:layout_width="wrap_content"
-			    android:layout_height="wrap_content" android:textColor="#eeeeee"/>
+			    android:layout_height="wrap_content" android:textColor="#848484"/>
 		    
-			<RatingBar android:id="@+id/ratingBarPlace" xmlns:android="http://schemas.android.com/apk/res/android"   
-				android:paddingLeft="10px"
-				android:stepSize="0.5"
-				style="?android:attr/ratingBarStyleSmall"
-				android:layout_width="wrap_content"
-			    android:layout_height="wrap_content" />
+		</LinearLayout> 
 			
-			<TextView android:id="@+id/puntuation" xmlns:android="http://schemas.android.com/apk/res/android"
-				android:paddingLeft="10px"
-				android:textSize="11px"
-				android:textStyle="italic"
-			    android:layout_width="wrap_content"
-			    android:layout_height="wrap_content" android:textColor="#eeeeee"/>
-			
-			    
-		</LinearLayout>  
-		
+
 				    
 	</LinearLayout>    
     

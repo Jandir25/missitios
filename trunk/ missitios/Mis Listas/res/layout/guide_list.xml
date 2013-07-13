@@ -2,7 +2,7 @@
 
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
       android:orientation="vertical" android:layout_width="fill_parent"
-    	android:layout_height="fill_parent" android:background="#94ACFE">
+    	android:layout_height="fill_parent" android:background="@android:color/white"> 
     	    	
 	<LinearLayout android:orientation="vertical"
 		android:paddingTop="3px"
@@ -13,7 +13,7 @@
 	        android:id="@+id/android:list"
 	        android:layout_width="fill_parent"
 	        android:layout_height="fill_parent"
-	        android:cacheColorHint="#186FFE" />
+	        android:cacheColorHint="#FF8000" />
 
 	  	<TextView 
 	  		android:id="@+id/android:empty"

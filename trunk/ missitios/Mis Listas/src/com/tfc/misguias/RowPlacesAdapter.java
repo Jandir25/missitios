@@ -118,8 +118,8 @@ public class RowPlacesAdapter extends BaseAdapter {
         TextView description = (TextView)v.findViewById(R.id.description);       
         description.setText(item.getString("description"));
         
-        TextView puntuation = (TextView)v.findViewById(R.id.puntuation);       
-        puntuation.setText(item.getString("puntuation"));
+        //TextView puntuation = (TextView)v.findViewById(R.id.puntuation);       
+        //puntuation.setText(item.getString("puntuation"));
         
         RatingBar ratingBarPlace = (RatingBar)v.findViewById (R.id.ratingBarPlace);
         ratingBarPlace.setRating(item.getFloat("puntuation"));

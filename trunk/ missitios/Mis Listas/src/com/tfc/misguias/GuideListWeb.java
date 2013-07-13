@@ -2,6 +2,7 @@ package com.tfc.misguias;
 
 import java.io.File;
 import java.io.StringReader;
+import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
@@ -25,9 +26,12 @@ import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.ListActivity;
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.location.Location;
 import android.location.LocationManager;
@@ -51,16 +55,28 @@ import com.android.dataframework.Entity;
 import com.tfc.misguias.R;
 
 
-public class GuideCategories extends ListActivity {
+public class GuideListWeb extends ListActivity {
 	
 	//Atributos de la lista de categorias
-
-	private String categories_url = "http://192.168.1.12/misguias/categories_xml.php";
+	private static final int ACTIVITY_SHOW = 0;
 	
+	
+	private String categories_url = "http://192.168.1.12/misguias/categories_places_xml.php?category_id=";
+	private Bitmap loadedImage;
 
 	//Es una lista de categorias
-	private RowGuideCategoryAdapter lists;
+	private RowListWebAdapter listAdapter;
+	private Long category_id;
 	private long selectId=-1;
+	public long getSelectId() {
+		return selectId;
+	}
+
+
+	public void setSelectId(long selectId) {
+		this.selectId = selectId;
+	}
+
 	private int selectPostion=-1;
 	
 	private View viewFilter;
@@ -71,8 +87,6 @@ public class GuideCategories extends ListActivity {
 	
 	private ProgressDialog pd = null;
 	
-	private static final int ACTIVITY_SHOW = 0;
-	
 	private long searchIdCategory = -1;
 	private long searchIdGroup = -1;
 	private long searchDate = -1;
@@ -82,6 +96,9 @@ public class GuideCategories extends ListActivity {
 	//private ThreadExport threadExport = null;
 	//private ThreadSimplify threadSimplify = null;
 	
+
+	
+
     /**
      * Primer metodo que se ejecuta al crear una Actividad
      * 
@@ -91,8 +108,14 @@ public class GuideCategories extends ListActivity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        this.setTitle(this.getString(R.string.guide_categories));
-        setContentView(R.layout.guide_categories); 
+        this.setTitle(this.getString(R.string.guide_list)+" categoria");
+        setContentView(R.layout.guide_list); 
+ 
+        Bundle extras = getIntent().getExtras();  
+        if (extras != null) {
+			long category_id = (extras.containsKey("category_id")) ? extras.getLong("category_id") : -1;
+			this.setCategory_id(category_id);
+		}
         
     } 
     
@@ -110,10 +133,11 @@ public class GuideCategories extends ListActivity {
      */
     
     private void fillData() {
-    	ArrayList<GuideCategory> miLista = new ArrayList<GuideCategory>();  ;
+    	ArrayList<Guide> miLista = new ArrayList<Guide>();  ;
     	
         try {
-        	String url = categories_url;
+        	String category_id2=String.valueOf(this.category_id);
+        	String url = categories_url+category_id2;
         	HttpGet request = new HttpGet(url);
 			HttpClient client = new DefaultHttpClient();
 			HttpResponse httpResponse = client.execute(request);
@@ -131,14 +155,20 @@ public class GuideCategories extends ListActivity {
 	        	
 	        	if ( eventType == XmlPullParser.START_TAG ) {
 	        		if (x.getName().equals("category")) {
-	        			GuideCategory nCategory = new GuideCategory();
-	        			nCategory.setDescription(x.getAttributeValue(null, "description"));
+	        			Guide guide = new Guide();
+	        			guide.setDescription(x.getAttributeValue(null, "description"));
 	        			String id = x.getAttributeValue(null, "id");
-	        			nCategory.setId(Long.parseLong(id));
-	        			nCategory.setName(x.getAttributeValue(null, "name"));
-	        			nCategory.setIcon(x.getAttributeValue(null, "icon"));
-	        			miLista.add(nCategory);
-	        			System.out.println(x.getAttributeValue(null, "name"));
+	        			guide.setId(Long.parseLong(id));
+	        			String uno = x.getAttributeValue(null, "title");
+	        			String n = new String(uno.getBytes("ISO-8859-1"));
+	        			guide.setTitle(n);
+	        			guide.setDate(x.getAttributeValue(null, "date"));
+	        			guide.setCategory_id(category_id);
+	        			String creator = x.getAttributeValue(null,"creator");
+	        			guide.setCreator(Long.parseLong(creator));
+	        			guide.setIcon(x.getAttributeValue(null, "image"));
+	        			miLista.add(guide);
+	        			System.out.println(x.getAttributeValue(null, "title"));
 	        			}
 	        		
 	        		
@@ -154,43 +184,55 @@ public class GuideCategories extends ListActivity {
 		} catch (Exception e) {
 			System.out.println(e);
 		}
-        lists = new RowGuideCategoryAdapter(this, miLista,false);
-        setListAdapter(lists);
+        listAdapter = new RowListWebAdapter(this, miLista);
+        setListAdapter(listAdapter);
         //return miLista;
     }
     
 
     
+    
 
-	@Override
+	public Long getCategory_id() {
+		return category_id;
+	}
+
+
+	public void setCategory_id(Long category_id2) {
+		this.category_id = category_id2;
+	}
+    
+    @Override
     protected void onListItemClick(ListView l, View v, int position, long id) {
         super.onListItemClick(l, v, position, id);
         
-       	//lists.clearSelectId();
-        
-        selectId = ((GuideCategory)lists.getItem(position)).getId();
+        selectId = ((Guide)listAdapter.getItem(position)).getId();
         selectPostion = position;
-        
-        lists.setSelectId(selectId);
-        lists.setViewSelectId(v);
-        
-        TextView t = (TextView) v.findViewById(R.id.name_cat);
+               
+        TextView t = (TextView) v.findViewById(R.id.title);
 		t.setTextColor(Color.rgb(0xea, 0xea,0x9c));
         
         //showDialog(DIALOG_ITEM);
 		//Abre tabbed
 		SingletonDatosLista sdLista = SingletonDatosLista.getInstance();
 		sdLista.setIdGuide(selectId);
-		int ownList= 1;//Hay que declararlo de otra manera
+		int ownList= 2;//Hay que declararlo de otra manera
 		sdLista.setOwnList(ownList);
 		
 		
-		Intent i = new Intent(this, GuideListWeb.class);
+		Intent i = new Intent(this, GuideTab.class);
 		i.putExtra(DataFramework.KEY_ID, selectId);
 		i.putExtra("ownList", 2);
-		i.putExtra("category_id", selectId);
 		i.putExtra("idSelected", selectId);
 		this.startActivityForResult(i, ACTIVITY_SHOW);
     }
+
+
+	public long getId() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+    
+	
     
 }
