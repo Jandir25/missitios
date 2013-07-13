@@ -3,12 +3,12 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
 	android:orientation="horizontal" android:layout_width="fill_parent"
 	android:layout_height="fill_parent"
-	android:paddingTop="5px" android:paddingBottom="5px">
+	android:paddingTop="2dp" android:paddingBottom="2dp">
 
     <ImageView
         android:id="@+id/icon"
-        android:paddingRight="10px"
-        android:paddingLeft="10px"
+        android:paddingRight="3dp"
+        android:paddingLeft="3dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
 	
@@ -21,69 +21,35 @@
 			android:layout_height="wrap_content">
 			
 			<TextView android:id="@+id/title" xmlns:android="http://schemas.android.com/apk/res/android"
-			    android:textSize="15px"
+			    android:textSize="12dp"
 				android:textStyle="bold"
 				android:layout_width="fill_parent"
 			    android:layout_height="wrap_content"
 			    android:layout_weight="1"
-			    android:textColor="#ffffff"/>
+			    android:textColor="#000000"/>
 			    
 			<TextView android:id="@+id/date"
-			    android:textSize="11px"
+			    android:textSize="9dp"
 				android:layout_width="wrap_content"
-			    android:layout_height="wrap_content" 
-			    android:text="hoy"
-			    android:layout_marginLeft="10px"
-			    android:layout_marginRight="7px"
-			    android:textColor="#ffffff" />
+			    android:layout_height="wrap_content"			    
+			    android:layout_marginLeft="10dp"
+			    android:layout_marginRight="7dp"
+			    android:textColor="#cccccc" />
 			    
 		</LinearLayout>
 		    
 		<LinearLayout android:orientation="horizontal"
-			android:paddingTop="5px"
-			android:layout_width="fill_parent"
-			android:layout_height="wrap_content">
-
-			<TextView android:id="@+id/time" xmlns:android="http://schemas.android.com/apk/res/android"
-				android:textSize="12px"
-				android:textStyle="italic"
-			    android:layout_width="wrap_content"
-			    android:layout_height="wrap_content" android:textColor="#eeeeee"/>
-		    
-			<TextView android:id="@+id/distance" xmlns:android="http://schemas.android.com/apk/res/android"
-				android:paddingLeft="15px"
-				android:textSize="12px"
-				android:textStyle="italic"
-			    android:layout_width="wrap_content"
-			    android:layout_height="wrap_content" android:textColor="#eeeeee"/>
-			    
-			<TextView android:id="@+id/marks" xmlns:android="http://schemas.android.com/apk/res/android"
-				android:paddingLeft="15px"
-				android:textSize="12px"
-				android:textStyle="italic"
-			    android:layout_width="wrap_content"
-			    android:layout_height="wrap_content" android:textColor="#eeeeee"/>
-			    
-		</LinearLayout>  
-		
-		<LinearLayout android:orientation="horizontal"
-			android:paddingTop="5px"
+			android:paddingTop="5dp"
 			android:layout_width="fill_parent"
 			android:layout_height="wrap_content">
 
 			<TextView android:id="@+id/group" xmlns:android="http://schemas.android.com/apk/res/android"
-				android:textSize="12px"
+				android:textSize="12dp"
 				android:textStyle="italic"
 			    android:layout_width="wrap_content"
-			    android:layout_height="wrap_content" android:textColor="#eeeeee"/>
+			    android:layout_height="wrap_content" 
+			    android:textColor="#cccccc"/>
 		    
-			<TextView android:id="@+id/coordinates" xmlns:android="http://schemas.android.com/apk/res/android"
-				android:paddingLeft="15px"
-				android:textSize="12px"
-				android:textStyle="italic"
-			    android:layout_width="wrap_content"
-			    android:layout_height="wrap_content" android:textColor="#eeeeee"/>
-			    
 		</LinearLayout>  
 		    
 	</LinearLayout>    

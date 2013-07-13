@@ -58,7 +58,8 @@ public class GuideMap extends MapActivity implements OnMapLocationClickListener 
 	
 	private static final int ACTIVITY_LOCATION = 0;
 	private static final int ACTIVITY_NEWLOCATION = 1;
-	
+	private static final long WEB_LIST  = 2;
+	private String places_url = "http://192.168.1.12/misguias/places_xml.php?guide_id=";
 	private MapLocationViewer mMapView;
     private MapController mMapController;
     
@@ -93,6 +94,8 @@ public class GuideMap extends MapActivity implements OnMapLocationClickListener 
     private long idCurrentLocation = -1;
     private String nameCurrentLocation ="";
     private float actualDistance=-1;
+	private long selectId=-1;
+	private int selectPosition=-1;
     
     private int page = 0;
     private int total = 0;
@@ -296,9 +299,10 @@ public class GuideMap extends MapActivity implements OnMapLocationClickListener 
 		} else {
 			Bundle extras = getIntent().getExtras();  
 			if (extras != null) {
-				//idGuide = (extras.containsKey(DataFramework.KEY_ID)) ? extras.getLong(DataFramework.KEY_ID) : -1;
-				//idCurrentLocation = (extras.containsKey("selectedPlace")) ? extras.getLong("selectedPlace") : -1;
-				ownList = 1;
+				//selectId = (extras.containsKey("selectId")) ? extras.getLong("selectId") : -1;
+				//selectPosition = (extras.containsKey("selectPosition")) ? extras.getInt("selectPosition") : -1;
+				ownList = (extras.containsKey("ownList")) ? extras.getInt("ownList") : -1;
+				
 			} else {
 				if (idGuide==-1){//instanciado singleton habrá que eliminar esto
 					idGuide = -1;
@@ -927,81 +931,170 @@ public class GuideMap extends MapActivity implements OnMapLocationClickListener 
 			showInfo();
 		}
 	
-/*	private void readLocations() throws XmlPullParserException, IOException {
-		
-		try{
-			String url = "http://www.dondereciclar.com/api_locations.php?latitude1=" + topLeft.getLatitude() 
-									+ "&latitude2=" + bottomRight.getLatitude() 
-									+ "&longitude1=" + bottomRight.getLongitude() 
-									+ "&longitude2=" + topLeft.getLongitude()
-									+ "&page=" + page
-									+ "&categories=" + groups2str();
-			if (lastLocation!=null) {
-				url += "&current_latitude=" + lastLocation.getLatitude() 
-						+ "&current_longitude=" + lastLocation.getLongitude();
-			}
-			if (!isAllPoints) {
-				url += "&user_id=" + Utils.idUser(this);
-			}
-			HttpGet request = new HttpGet(url);
+//	private void readWebLocations() throws XmlPullParserException, IOException {
+//		
+//		try{
+//			String url = "http://www.dondereciclar.com/api_locations.php?latitude1=" + topLeft.getLatitude() 
+//									+ "&latitude2=" + bottomRight.getLatitude() 
+//									+ "&longitude1=" + bottomRight.getLongitude() 
+//									+ "&longitude2=" + topLeft.getLongitude()
+//									+ "&page=" + page
+//									+ "&categories=" + groups2str();
+//			if (lastLocation!=null) {
+//				url += "&current_latitude=" + lastLocation.getLatitude() 
+//						+ "&current_longitude=" + lastLocation.getLongitude();
+//			}
+//			if (!isAllPoints) {
+//				url += "&user_id=" + Utils.idUser(this);
+//			}
+//			HttpGet request = new HttpGet(url);
+//			HttpClient client = new DefaultHttpClient();
+//			HttpResponse httpResponse = client.execute(request);
+//			String xml = EntityUtils.toString(httpResponse.getEntity());
+//			try {
+//				
+//				mMapView.getManager().clear();
+//				
+//				XmlPullParserFactory factory = XmlPullParserFactory.newInstance();
+//				factory.setNamespaceAware(true);
+//				XmlPullParser x = factory.newPullParser();
+//				
+//				x.setInput( new StringReader ( xml ) );
+//						
+//				int eventType = x.getEventType();
+//		        while (eventType != XmlPullParser.END_DOCUMENT) {
+//		        	
+//		        	if ( eventType == XmlPullParser.START_TAG ) {
+//		        		if (x.getName().equals("locations")) {
+//		        			total = Integer.parseInt(x.getAttributeValue(null, "total"));
+//		        			pages = total/POI_BYPAGE;
+//		        			if (total%POI_BYPAGE!=0) pages++;
+//		        		}
+//		        		
+//		        		if (x.getName().equals("location")) {
+//		        			Location loc = new Location(LocationManager.GPS_PROVIDER);
+//		        			loc.setLatitude(Double.parseDouble(x.getAttributeValue(null, "latitude")));
+//		        			loc.setLongitude(Double.parseDouble(x.getAttributeValue(null, "longitude")));
+//		        			MapLocation ml = new MapLocation(mMapView, loc, Integer.parseInt(x.getAttributeValue(null, "group")));
+//		        			ml.setId(Integer.parseInt(x.getAttributeValue(null, "id")));
+//		        			mMapView.getManager().addMapLocation(ml);
+//		        		}
+//		        	}
+//		        	
+//		        	if ( eventType == XmlPullParser.END_TAG ) {
+//		        		
+//		        	}
+//		        	
+//		        	eventType = x.next();
+//		        }				
+//				
+//			} catch (Exception e) {
+//				
+//			}
+//			
+//	        tvFound.setText(total + " " + this.getString(R.string.found));
+//	        if (pages<=0) {
+//	        	tvPages.setText(this.getString(R.string.no_points));
+//	        } else {
+//	        	tvPages.setText(this.getString(R.string.page) + " " + (page+1) + "/" + pages);
+//	        }
+//	        mMapView.refresh();
+//		} catch(ClientProtocolException e){
+//			
+//		} catch(IOException e){
+//			
+//		} 
+//		
+//	}
+	
+	private void readWebLocations() throws XmlPullParserException, IOException {
+    	   	
+        try {
+        	String guide_id=String.valueOf(this.idGuide);
+        	String url = places_url+guide_id;
+        	HttpGet request = new HttpGet(url);
 			HttpClient client = new DefaultHttpClient();
 			HttpResponse httpResponse = client.execute(request);
 			String xml = EntityUtils.toString(httpResponse.getEntity());
-			try {
-				
-				mMapView.getManager().clear();
-				
-				XmlPullParserFactory factory = XmlPullParserFactory.newInstance();
-				factory.setNamespaceAware(true);
-				XmlPullParser x = factory.newPullParser();
-				
-				x.setInput( new StringReader ( xml ) );
-						
-				int eventType = x.getEventType();
-		        while (eventType != XmlPullParser.END_DOCUMENT) {
-		        	
-		        	if ( eventType == XmlPullParser.START_TAG ) {
-		        		if (x.getName().equals("locations")) {
-		        			total = Integer.parseInt(x.getAttributeValue(null, "total"));
-		        			pages = total/POI_BYPAGE;
-		        			if (total%POI_BYPAGE!=0) pages++;
-		        		}
-		        		
-		        		if (x.getName().equals("location")) {
-		        			Location loc = new Location(LocationManager.GPS_PROVIDER);
-		        			loc.setLatitude(Double.parseDouble(x.getAttributeValue(null, "latitude")));
-		        			loc.setLongitude(Double.parseDouble(x.getAttributeValue(null, "longitude")));
-		        			MapLocation ml = new MapLocation(mMapView, loc, Integer.parseInt(x.getAttributeValue(null, "group")));
-		        			ml.setId(Integer.parseInt(x.getAttributeValue(null, "id")));
-		        			mMapView.getManager().addMapLocation(ml);
-		        		}
-		        	}
-		        	
-		        	if ( eventType == XmlPullParser.END_TAG ) {
-		        		
-		        	}
-		        	
-		        	eventType = x.next();
-		        }				
-				
-			} catch (Exception e) {
-				
-			}
+            // Url del archivo XML
+        
+			XmlPullParserFactory factory = XmlPullParserFactory.newInstance();
+			factory.setNamespaceAware(true);
+			XmlPullParser x = factory.newPullParser();
 			
-	        tvFound.setText(total + " " + this.getString(R.string.found));
-	        if (pages<=0) {
-	        	tvPages.setText(this.getString(R.string.no_points));
-	        } else {
-	        	tvPages.setText(this.getString(R.string.page) + " " + (page+1) + "/" + pages);
-	        }
-	        mMapView.refresh();
-		} catch(ClientProtocolException e){
+			x.setInput( new StringReader ( xml ) );
+					
+			int eventType = x.getEventType();
+	        while (eventType != XmlPullParser.END_DOCUMENT) {
+	        	
+	        	if ( eventType == XmlPullParser.START_TAG ) {
+	        		if (x.getName().equals("marker")) {
+	        			Location loc = new Location(LocationManager.GPS_PROVIDER);
+	        			loc.setLatitude(Double.parseDouble(x.getAttributeValue(null, "lat")));
+	        			loc.setLongitude(Double.parseDouble(x.getAttributeValue(null, "lng")));
+	        			MapLocation ml = new MapLocation(mMapView, loc, Integer.parseInt(x.getAttributeValue(null, "type")));
+	        			ml.setId(Integer.parseInt(x.getAttributeValue(null, "_id")));
+	        			mMapView.getManager().addMapLocation(ml);
+	        			
+	        			
+/*	        			Place nPlace = new Place();
+	        			//Name
+	        			String name = x.getAttributeValue(null, "name");
+	        			String nName = new String(name.getBytes("ISO-8859-1"));
+	        			nPlace.setName(nName);
+	        			//Description
+	        			String description = x.getAttributeValue(null, "description");
+	        			String nDescription = new String(description.getBytes("ISO-8859-1"));
+	        			nPlace.setDescription(nDescription);
+	        			//Address
+	        			String address = x.getAttributeValue(null, "address");
+	        			String nAddress = new String(address.getBytes("ISO-8859-1"));
+	        			nPlace.setAddress(nAddress);
+	        			//Comment
+	        			String comment = x.getAttributeValue(null, "comment");
+	        			String nComment = new String(comment.getBytes("ISO-8859-1"));
+	        			nPlace.setComment(nComment);
+	        			//Id
+	        			String id = x.getAttributeValue(null, "_id");
+	        			nPlace.setId(Long.parseLong(id));
+	        			//Latitude
+	        			String latitude =x.getAttributeValue(null, "lat");
+	        			nPlace.setLatitude(Double.parseDouble(latitude));
+	        			//Longitude	        			 
+	        			String longitude =x.getAttributeValue(null, "lng");
+	        			nPlace.setLongitude(Double.parseDouble(longitude)); 
+	        			//Puntuation
+	        			String puntuation =x.getAttributeValue(null, "puntuation");
+	        			nPlace.setPuntuation(Float.parseFloat(puntuation));
+	        			//Type
+	        			String type_id =x.getAttributeValue(null, "type");
+	        			nPlace.setType_id(Long.parseLong(type_id));
+	        			//Price
+	        			String price =x.getAttributeValue(null, "price");
+	        			nPlace.setPrice(price);
+	        			miLista.add(nPlace);
+	        			System.out.println(x.getAttributeValue(null, "name"));*/
+	        			}
+	        		
+	        		
+	        	}
+	        	
+	        	if ( eventType == XmlPullParser.END_TAG ) {
+	        		
+	        	}
+	        	
+	        	eventType = x.next();
+	        }				
 			
-		} catch(IOException e){
-			
-		} 
-		
-	}*/
+		} catch (Exception e) {
+			System.out.println(e);
+		}
+        mMapView.refresh();
+        //webPlaces = new RowPlacesWebAdapter(this, miLista);
+        //setListAdapter(webPlaces);
+        //return miLista;
+    }
+	
 	public void nearestLocation() throws XmlPullParserException, IOException{
 		Location nearLoc = null;
 		float minDistance= Float.MAX_VALUE;
@@ -1062,10 +1155,10 @@ public class GuideMap extends MapActivity implements OnMapLocationClickListener 
 	private void readLocations()throws XmlPullParserException, IOException{
 		//Leemos el xml de los propios recursos de la bbdd
 		try {
-		    DataFramework.getInstance().open(this, "com.tfc.misguias");
-		} catch (Exception e) {
-		    e.printStackTrace();
-		}
+			    DataFramework.getInstance().open(this, "com.tfc.misguias");
+			} catch (Exception e) {
+			    e.printStackTrace();
+			}
 		
 		//List<Entity> categories = DataFramework.getInstance().getEntityList("personal", "categoria_id = 3", "fecha asc");
 		places  = DataFramework.getInstance().getEntityList("tbl_places","guide_id=" + idGuide);
@@ -1158,7 +1251,8 @@ public class GuideMap extends MapActivity implements OnMapLocationClickListener 
 		this.topLeft = topLeft;
 
 		try {
-			readLocations();
+			readWebLocations();
+			//readLocations();
 		} catch (XmlPullParserException e) {
 			e.printStackTrace();
 		} catch (IOException e) {

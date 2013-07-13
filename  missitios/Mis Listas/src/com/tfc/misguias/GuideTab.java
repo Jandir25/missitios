@@ -28,7 +28,7 @@ public class GuideTab extends TabActivity {
         Intent placesIntent = new Intent(this, EditGuide.class);
         guideList.setContent(placesIntent);
  
-        // Tab for Songs
+        // Tab for Map
         TabSpec guideMap = tabHost.newTabSpec("Mapa");
         guideMap.setIndicator("Mapa", getResources().getDrawable(R.drawable.category_2));
         

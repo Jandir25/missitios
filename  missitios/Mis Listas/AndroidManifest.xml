@@ -14,8 +14,10 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-                <service android:name="com.tfc.misguias.ServiceGPS"></service>
-        <activity android:name=".GuideMap" android:screenOrientation="portrait"></activity>
+    <service android:name="com.tfc.misguias.ServiceGPS"></service>
+    <activity android:name=".GuideMap" android:screenOrientation="portrait"></activity>
+    <activity android:name="GuideCategories"></activity>
+    <activity android:name="GuideListWeb"></activity>
     <activity android:name="InfoLocation"></activity>
     <activity android:name="NewLocation"></activity>
     <activity android:name="NewGuide"></activity>
