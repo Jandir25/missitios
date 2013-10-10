@@ -11,6 +11,7 @@
      <string name="txt_wellcome">MisGuias</string>
     <string name="new_guide_text">Crea una nueva guía con tus sitios</string>
 	<string name="open_guide">Abre Guía</string>
+	<string name="navigate">Navegar</string>
 	<string name="position_date_day">2</string>
 	<string name="position_date_month">1</string>
 	<string name="position_date_year">0</string>
@@ -19,6 +20,17 @@
 	<string name="yesterday">Yesterday</string>
 	<string name="two_days_ago">2 days ago</string>
 	<string name="three_days_ago">3 days ago</string>
+	
+	<string name="ip_home_guide">http://192.168.1.11/misguias/places_xml.php?guide_id=</string>
+	<string name="ip_home_guide_images">http://192.168.1.11/misguias/FILEUPLOAD/guide_images/thumbs/</string>
+	<string name="ip_home_place_images">http://192.168.1.11/misguias/FILEUPLOAD/places_images/thumbs/</string>
+	<string name="ip_home_category">http://192.168.1.11/misguias/categories_places_xml.php?category_id=</string>
+	<string name="ip_home_category_xml">http://192.168.1.11/misguias/categories_xml.php</string>
+	<string name="ip_home_info_location">http://192.168.1.11/misguias/info_location.php?id=</string>
+	
+	
+	
+	
 	<string name="settings">Configuración</string>
 	<string name="settings_text">Configura tus preferencias</string>
 	<string name="open_guide_text">Abre una guía y descubre sitios cercanos</string>
@@ -47,7 +59,7 @@
     <string name="ropa">Ropa</string>
     <string name="otro">Otro</string>
     <string name="actions">Acciones</string>
-    <string name="type">Tipo</string>
+    <string name="type">type</string>
     <string name="preferences">Preferencias</string>
     <string name="address">Dirección</string>
 	<string name="_id">Id en BBDD</string>

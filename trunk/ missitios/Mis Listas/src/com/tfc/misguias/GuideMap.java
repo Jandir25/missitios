@@ -1,7 +1,10 @@
 package com.tfc.misguias;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.StringReader;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -23,6 +26,8 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.location.Address;
 import android.location.Criteria;
 import android.location.Geocoder;
@@ -59,7 +64,7 @@ public class GuideMap extends MapActivity implements OnMapLocationClickListener 
 	private static final int ACTIVITY_LOCATION = 0;
 	private static final int ACTIVITY_NEWLOCATION = 1;
 	private static final long WEB_LIST  = 2;
-	private String places_url = "http://192.168.1.12/misguias/places_xml.php?guide_id=";
+	//private String places_url = "http://192.168.1.13/misguias/places_xml.php?guide_id=";
 	private MapLocationViewer mMapView;
     private MapController mMapController;
     
@@ -130,10 +135,8 @@ public class GuideMap extends MapActivity implements OnMapLocationClickListener 
     
     public void showMenu() {
     	mMapView.getManager().unSelectedMapLocation();
-    	//llMenu.setVisibility(View.VISIBLE);
-    	
-    	llInfo.setVisibility(View.GONE);
-    	
+    	//llMenu.setVisibility(View.VISIBLE);    	
+    	llInfo.setVisibility(View.GONE);    	
     	llButtonsNewPoint.setVisibility(View.GONE);
     	llPagination.setVisibility(View.VISIBLE);
     }
@@ -389,30 +392,14 @@ public class GuideMap extends MapActivity implements OnMapLocationClickListener 
 
 			@Override
 			public void onClick(View v) {
-				if (page<pages-1) {
-					showMenu();
-					page++;
-					try {
-						readLocations();
-					} catch (XmlPullParserException e) {
-						e.printStackTrace();
-					} catch (IOException e) {
-						e.printStackTrace();
-					}
-				}	
-			}
-			
-		});
-		
-		ImageView btnNear = (ImageView) this.findViewById(R.id.img_next_place);
-		
-		btnNear.setOnClickListener(new OnClickListener() {
-
-			@Override
-			public void onClick(View v) {
 				if (lastLocation!=null) {
 					try {
-						nearestLocation();
+						if (ownList!=-1){
+							nearestLocationWeb();
+						}else{
+							nearestLocation();
+						}
+						
 					} catch (XmlPullParserException e) {
 						// TODO Auto-generated catch block
 						e.printStackTrace();
@@ -427,11 +414,35 @@ public class GuideMap extends MapActivity implements OnMapLocationClickListener 
 			
 		});
 		
+		ImageView btnNear = (ImageView) this.findViewById(R.id.img_next_place);
 		
+		btnNear.setOnClickListener(new OnClickListener() {
+
+			@Override
+			public void onClick(View v) {
+				if (lastLocation!=null) {
+					try {
+						if (ownList!=-1){
+							nearestLocationWeb();
+						}else{
+							nearestLocation();
+						}
+						
+					} catch (XmlPullParserException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					} catch (IOException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+				}else{
+					Utils.showMessage(GuideMap.this, GuideMap.this.getString(R.string.no_gps_near));
+				}	
+			}
+			
+		});
 		
-		
-		
-		
+	
 		
 		btnMore = (ImageView) this.findViewById(R.id.btn_more);
 		
@@ -581,6 +592,7 @@ public class GuideMap extends MapActivity implements OnMapLocationClickListener 
 		        newLocation(location);
 	    		moveToLocation(location);
 			} else {
+				//Deberia mostrar un aviso de que el gps no esta activo
 				mMapView.getController().setCenter(new GeoPoint((int)(40.407*1E6), (int)(-3.68*1E6)));
 	    		mMapController.setZoom(14);
 			}
@@ -853,6 +865,23 @@ public class GuideMap extends MapActivity implements OnMapLocationClickListener 
 	protected boolean isRouteDisplayed() {
 		return false;
 	}
+	
+    public static Bitmap getBitmapFromURL(String src) {
+        try {
+            URL url = new URL(src);
+            HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+            connection.setDoInput(true);
+            connection.connect();
+            InputStream input = connection.getInputStream();
+            Bitmap myBitmap = BitmapFactory.decodeStream(input);            
+            return myBitmap;
+        } catch (IOException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+	
+	
 
 	@Override
 	public void OnMapLocationClick(MapLocation mapLocation, boolean wasSelected) {
@@ -881,8 +910,10 @@ public class GuideMap extends MapActivity implements OnMapLocationClickListener 
 	
 	private void readLocation(int id) throws XmlPullParserException, IOException {
 		idCurrentLocation = id;
+		String guideImage="";
+		
 		if (ownList!=1){// si se trata de una lista publica
-			String url = "http://www.dondereciclar.com/api_info_location.php?id=" + id;
+			String url = this.getString(R.string.ip_home_info_location) + id;
 			HttpGet request = new HttpGet(url);
 			HttpClient client = new DefaultHttpClient();
 			HttpResponse httpResponse = client.execute(request);
@@ -898,12 +929,27 @@ public class GuideMap extends MapActivity implements OnMapLocationClickListener 
 				int eventType = x.getEventType();
 				while (eventType != XmlPullParser.END_DOCUMENT) {
 					if ( eventType == XmlPullParser.START_TAG ) {
-						if (x.getName().equals("location")) {
-							int idGroup = this.getResources().getIdentifier(
-	        					"com.tfc.misguias:drawable/ico_"+x.getAttributeValue(null, "group_id")+"_on", null, null);
-							ivIcoInfo.setImageResource(idGroup);
+						if (x.getName().equals("place")) {
+							String name = x.getAttributeValue(null, "name");
+		        			String nName = new String(name.getBytes("ISO-8859-1"));
+		        			tvInfo.setText(nName);
+		        			
+		        			String image = x.getAttributeValue(null, "image");
+		        			
+							
+		        			  if (image.length()!=0){
+		        		        	guideImage=this.getString(R.string.ip_home_place_images)+image;	
+		        		        }
+		        		        else{
+		        		        	guideImage=this.getString(R.string.ip_home_place_images)+"no_disponible.jpg";
+		        		        }
+		        			  Bitmap imgs =getBitmapFromURL(guideImage);
+		        			  ivIcoInfo.setImageBitmap(Bitmap.createScaledBitmap(imgs, 60, 60, false));
+							//int idGroup = this.getResources().getIdentifier(
+	        				//	"com.tfc.misguias:drawable/ico_"+x.getAttributeValue(null, "group_id")+"_on", null, null);
+							//ivIcoInfo.setImageResource(idGroup);
 						}
-						if (x.getName().equals("street")) {
+						if (x.getName().equals("name")) {
 							tvInfo.setText(x.nextText());
 						}
 	        		
@@ -1008,10 +1054,10 @@ public class GuideMap extends MapActivity implements OnMapLocationClickListener 
 //	}
 	
 	private void readWebLocations() throws XmlPullParserException, IOException {
-    	   	
+    	int countPlaces=0;   	
         try {
         	String guide_id=String.valueOf(this.idGuide);
-        	String url = places_url+guide_id;
+        	String url = this.getResources().getString(R.string.ip_home_guide)+guide_id;
         	HttpGet request = new HttpGet(url);
 			HttpClient client = new DefaultHttpClient();
 			HttpResponse httpResponse = client.execute(request);
@@ -1032,10 +1078,10 @@ public class GuideMap extends MapActivity implements OnMapLocationClickListener 
 	        			Location loc = new Location(LocationManager.GPS_PROVIDER);
 	        			loc.setLatitude(Double.parseDouble(x.getAttributeValue(null, "lat")));
 	        			loc.setLongitude(Double.parseDouble(x.getAttributeValue(null, "lng")));
-	        			MapLocation ml = new MapLocation(mMapView, loc, Integer.parseInt(x.getAttributeValue(null, "type")));
+	        			MapLocation ml = new MapLocation(mMapView, loc, Integer.parseInt(x.getAttributeValue(null, getString(R.string.type))));
 	        			ml.setId(Integer.parseInt(x.getAttributeValue(null, "_id")));
 	        			mMapView.getManager().addMapLocation(ml);
-	        			
+	        			countPlaces++;
 	        			
 /*	        			Place nPlace = new Place();
 	        			//Name
@@ -1089,6 +1135,8 @@ public class GuideMap extends MapActivity implements OnMapLocationClickListener 
 		} catch (Exception e) {
 			System.out.println(e);
 		}
+        tvFound.setText(countPlaces + " " + this.getString(R.string.found));
+       	tvPages.setText(this.getString(R.string.navigate)); 
         mMapView.refresh();
         //webPlaces = new RowPlacesWebAdapter(this, miLista);
         //setListAdapter(webPlaces);
@@ -1144,8 +1192,77 @@ public class GuideMap extends MapActivity implements OnMapLocationClickListener 
 			}
 	}
 	
-	
-	
+	public void nearestLocationWeb() throws XmlPullParserException, IOException{
+		Location nearLoc = null;
+		Integer typeLoc=0;
+		String nameLoc=null;
+		Integer id=0;
+		float minDistance= Float.MAX_VALUE;
+		float mDistance= Float.MIN_VALUE;
+		 try {
+	        	String guide_id=String.valueOf(this.idGuide);
+	        	String url = this.getResources().getString(R.string.ip_home_guide)+guide_id;
+	        	HttpGet request = new HttpGet(url);
+				HttpClient client = new DefaultHttpClient();
+				HttpResponse httpResponse = client.execute(request);
+				String xml = EntityUtils.toString(httpResponse.getEntity());
+	            // Url del archivo XML	        
+				XmlPullParserFactory factory = XmlPullParserFactory.newInstance();
+				factory.setNamespaceAware(true);
+				XmlPullParser x = factory.newPullParser();
+				x.setInput( new StringReader ( xml ) );
+				int eventType = x.getEventType();
+		        while (eventType != XmlPullParser.END_DOCUMENT) {
+		        	
+		        	if ( eventType == XmlPullParser.START_TAG ) {
+		        		if (x.getName().equals("marker")) {
+		        			Location loc = new Location(LocationManager.GPS_PROVIDER);
+		        			loc.setLatitude(Double.parseDouble(x.getAttributeValue(null, "lat")));
+		        			loc.setLongitude(Double.parseDouble(x.getAttributeValue(null, "lng")));
+		        			Location lastLocation2 = lastLocation;
+							if ((loc.distanceTo(lastLocation2)<minDistance)&&(mDistance<loc.distanceTo(lastLocation2))){
+			    				minDistance = loc.distanceTo(lastLocation2);
+								nearLoc=loc;
+								typeLoc=Integer.parseInt(x.getAttributeValue(null, "type"));
+								nameLoc=x.getAttributeValue(null, "name");
+								id=Integer.parseInt(x.getAttributeValue(null, "_id"));
+			    				
+			    			}
+		        		}
+		        		
+		        		
+		        	}
+		           	if ( eventType == XmlPullParser.END_TAG ) {
+		        		
+		        	}
+		        	
+		        	eventType = x.next();
+		        }				
+				
+			} catch (Exception e) {
+				System.out.println(e);
+			}
+
+			if (nearLoc!=null){
+				MapLocation ml = new MapLocation(mMapView, nearLoc,typeLoc,nameLoc);
+				ml.setId(id);
+				mMapView.getManager().addMapLocation(ml);
+				readLocation(ml.getId());
+				//Ampliamos mapa para que se vean ambos puntos
+				moveToLocationZoom(nearLoc);
+				ml.setTitle(nameCurrentLocation.toUpperCase()+" a " + Utils.formatDistance(this, ml.getLocation().distanceTo(lastLocation)));
+				actualDistance = ml.getLocation().distanceTo(lastLocation);
+				mMapView.getManager().setHitMapLocation(mMapView, ml);
+				if (idCurrentLocation!=-1){					
+					idCurrentLocation = id;
+				}
+				
+			}else{
+				//Se ha llegado al punto más lejano
+				Utils.showMessage(this, this.getString(R.string.lastLocation));
+				actualDistance=-1;
+			}
+	}
 	
 	
 	

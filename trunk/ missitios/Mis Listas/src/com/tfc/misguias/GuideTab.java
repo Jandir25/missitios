@@ -30,7 +30,7 @@ public class GuideTab extends TabActivity {
  
         // Tab for Map
         TabSpec guideMap = tabHost.newTabSpec("Mapa");
-        guideMap.setIndicator("Mapa", getResources().getDrawable(R.drawable.category_2));
+        guideMap.setIndicator("Mapa", getResources().getDrawable(R.drawable.category_22));
         
         Intent mapIntent = new Intent(this, GuideMap.class);
         guideMap.setContent(mapIntent);
@@ -51,8 +51,8 @@ public class GuideTab extends TabActivity {
 		}
        
         // Adding all TabSpec to TabHost
-        tabHost.addTab(guideList); // Adding photos tab
-        tabHost.addTab(guideMap); // Adding songs tab
+        tabHost.addTab(guideList); // Adding list tab
+        tabHost.addTab(guideMap); // Adding map tab
         if (tabSelected!=-1){
         	tabHost.setCurrentTab(tabSelected);
         }
