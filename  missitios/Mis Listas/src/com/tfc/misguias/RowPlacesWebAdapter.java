@@ -1,10 +1,16 @@
 package com.tfc.misguias;
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
 import android.content.Context;
 import android.database.Cursor;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.view.View;
@@ -26,7 +32,10 @@ public class RowPlacesWebAdapter extends BaseAdapter {
     private long selectId = -1;
     private View viewSelectId = null;
     private RatingBar ratingBarPlace = null;
-	
+    
+    private ImageView imageView;
+	private Bitmap loadedImage;
+	//private String imageHttpAddress = "http://192.168.1.13/misguias/FILEUPLOAD/places_images/thumbs/"; 
     /**
      * Constructor - Adaptador que crea la vista de cada una de las
      * filas de la lista de Lugares
@@ -61,6 +70,28 @@ public class RowPlacesWebAdapter extends BaseAdapter {
 	}
 	
     
+    /**
+     * Descarga una imagen de la guía
+     * 
+     * 
+     * */
+    public static Bitmap getBitmapFromURL(String src) {
+        try {
+            URL url = new URL(src);
+            HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+            connection.setDoInput(true);
+            connection.connect();
+            InputStream input = connection.getInputStream();
+            Bitmap myBitmap = BitmapFactory.decodeStream(input);            
+            return myBitmap;
+        } catch (IOException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+	
+	
+	
     /**
      * Numero de elementos en la lista
      * 
@@ -104,11 +135,21 @@ public class RowPlacesWebAdapter extends BaseAdapter {
 		long id = item.getId();
 		long type_id = item.getType_id();
         View v = View.inflate(mContext, R.layout.place_row, null);
-
+        String placeImage="";
         Drawable d = mContext.getResources().getDrawable(mContext.getResources().getIdentifier("com.tfc.misguias:drawable/place_type_" + type_id, null, null));
         
         ImageView img = (ImageView)v.findViewById(R.id.icon);
-        img.setImageDrawable(d);
+        
+        if (item.getImage().length()!=0){
+        	placeImage=mContext.getResources().getString(R.string.ip_home_place_images)+item.getImage();	
+        }
+        else{
+        	placeImage=mContext.getResources().getString(R.string.ip_home_place_images)+"no_disponible.jpg";
+        }
+        
+        Bitmap imgs =getBitmapFromURL(placeImage);
+        img.setImageBitmap(Bitmap.createScaledBitmap(imgs, 60, 60, false));
+        
         
         TextView title = (TextView)v.findViewById(R.id.name);       
         title.setText(item.getName());

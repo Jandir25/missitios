@@ -55,7 +55,7 @@ public class GuideCategories extends ListActivity {
 	
 	//Atributos de la lista de categorias
 
-	private String categories_url = "http://192.168.1.12/misguias/categories_xml.php";
+	//private String categories_url = "http://192.168.1.13/misguias/categories_xml.php";
 	
 
 	//Es una lista de categorias
@@ -113,7 +113,7 @@ public class GuideCategories extends ListActivity {
     	ArrayList<GuideCategory> miLista = new ArrayList<GuideCategory>();  ;
     	
         try {
-        	String url = categories_url;
+        	String url = this.getResources().getString(R.string.ip_home_category_xml);
         	HttpGet request = new HttpGet(url);
 			HttpClient client = new DefaultHttpClient();
 			HttpResponse httpResponse = client.execute(request);

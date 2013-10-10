@@ -12,6 +12,7 @@ public class Place {
     private String web = null;
     private String price= null;
     private Long type_id= null;
+    private String image= null;
         
     
     
@@ -80,5 +81,11 @@ public class Place {
 	}
 	public void setType_id(Long type_id) {
 		this.type_id = type_id;
+	}
+	public String getImage() {
+		return image;
+	}
+	public void setImage(String image) {
+		this.image = image;
 	}
 }

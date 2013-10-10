@@ -181,6 +181,13 @@ public class InfoLocation extends ListActivity {
 			if (savedInstanceState.containsKey("idSelected")) idSelected = savedInstanceState.getLong("idSelected");
 			if (savedInstanceState.containsKey("longitudeGPS")) mLongitudeGPS = savedInstanceState.getDouble("longitudeGPS");
 			if (savedInstanceState.containsKey("fromMap")) fromMap = savedInstanceState.getInt("fromMap");
+			//Hay que eliminar lo de arriba si uso singleton?
+			
+    		SingletonDatosLista sgDatosLista = SingletonDatosLista.getInstance();
+    		idSelected = sgDatosLista.getIdGuide();
+    		ownList = sgDatosLista.getOwnList();
+			
+			
 		} else {
 			Bundle extras = getIntent().getExtras();  
 			if (extras != null) {
@@ -199,6 +206,9 @@ public class InfoLocation extends ListActivity {
 				if (extras.containsKey("fromMap")) fromMap = extras.getInt("fromMap");
 			    if (extras.containsKey("latitudeGPS")) mLatitudeGPS = extras.getDouble("latitudeGPS");
 				if (extras.containsKey("longitudeGPS")) mLongitudeGPS = extras.getDouble("longitudeGPS");
+	    		SingletonDatosLista sgDatosLista = SingletonDatosLista.getInstance();
+	    		idSelected = sgDatosLista.getIdGuide();
+	    		ownList = sgDatosLista.getOwnList();
 			} else {
 				id = -1;
 			}

@@ -3,12 +3,12 @@
     android:orientation="vertical"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    android:padding="5px"
+    android:padding="1dp"
     android:background="#000000"
     >
 	
 	<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-	    android:padding="3px" android:id="@+id/ll_info" 
+	    android:padding="1dp" android:id="@+id/ll_info" 
 	    
 	    android:background="@drawable/bg_corner"
 	    android:layout_width="fill_parent" android:layout_marginBottom="5px" 
@@ -16,8 +16,15 @@
 	    android:layout_gravity="center_horizontal" 
 	    android:layout_height="50px" 
 	    android:clickable="true">
-		
-		<ImageView android:layout_width="wrap_content" android:layout_height="wrap_content" android:src="@drawable/ico_1_on" android:paddingRight="10px" android:id="@+id/ico_info"></ImageView>
+
+		<ImageView
+		    android:id="@+id/ico_info"
+		    android:layout_width="wrap_content"
+		    android:layout_height="wrap_content"
+		    android:paddingLeft="0dp"
+		    android:paddingRight="10dp"
+		    android:src="@drawable/ico_1_on" />
+
 		<TextView android:layout_width="wrap_content" 
 		android:id="@+id/txt_info" 
 		android:text="informacion" 
@@ -26,7 +33,12 @@
 		android:layout_weight="1" 
 		android:layout_height="45px"></TextView>
 	
-		<ImageView android:layout_width="wrap_content" android:layout_height="wrap_content" android:id="@+id/btn_more" android:src="@drawable/ico_gomap" android:paddingRight="15px"></ImageView>
+		<ImageView android:layout_width="wrap_content" 
+		    android:layout_height="wrap_content" 
+		    android:id="@+id/btn_more" 
+		    android:src="@drawable/ico_gomap" 
+		    android:paddingRight="15px"
+		    android:paddingTop="3dp"></ImageView>
 </LinearLayout>
     
 	<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"

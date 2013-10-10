@@ -30,7 +30,7 @@ public class RowListWebAdapter extends BaseAdapter {
 	
 	private ImageView imageView;
 	private Bitmap loadedImage;
-	private String imageHttpAddress = "http://192.168.1.12/misguias/FILEUPLOAD/guide_images/thumbs/"; 
+	//private String imageHttpAddress = "http://192.168.1.13/misguias/FILEUPLOAD/guide_images/thumbs/"; 
     /**
      * Constructor - Adaptador que crea la vista de cada una de las
      * filas de la lista de categorías para listas
@@ -130,10 +130,10 @@ public class RowListWebAdapter extends BaseAdapter {
 	        ImageView img = (ImageView)v.findViewById(R.id.icon);
 	        //img.setImageDrawable(d);
 	        if (item.getIcon().length()!=0){
-	        	guideImage=imageHttpAddress+item.getIcon();	
+	        	guideImage=mContext.getString(R.string.ip_home_guide_images)+item.getIcon();	
 	        }
 	        else{
-	        	guideImage=imageHttpAddress+"no_disponible.jpg";
+	        	guideImage=mContext.getString(R.string.ip_home_guide_images)+"no_disponible.jpg";
 	        }
 	        Bitmap imgs =getBitmapFromURL(guideImage);
 	        img.setImageBitmap(Bitmap.createScaledBitmap(imgs, 60, 60, false));

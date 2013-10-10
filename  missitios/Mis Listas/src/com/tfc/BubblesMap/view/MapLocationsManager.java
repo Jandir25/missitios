@@ -151,8 +151,7 @@ public class MapLocationsManager {
     //Finjiremos que se ha tocado la pantalla
     public boolean setHitMapLocation(MapView mapView,MapLocation mLocation ) {
     	selectedLocation = mLocation;
-    		
-		    	return false; 
+    	return false; 
     }
     
     

@@ -61,7 +61,7 @@ public class GuideListWeb extends ListActivity {
 	private static final int ACTIVITY_SHOW = 0;
 	
 	
-	private String categories_url = "http://192.168.1.12/misguias/categories_places_xml.php?category_id=";
+	//private String categories_url = "http://192.168.1.13/misguias/categories_places_xml.php?category_id=";
 	private Bitmap loadedImage;
 
 	//Es una lista de categorias
@@ -137,7 +137,7 @@ public class GuideListWeb extends ListActivity {
     	
         try {
         	String category_id2=String.valueOf(this.category_id);
-        	String url = categories_url+category_id2;
+        	String url = this.getString(R.string.ip_home_category)+category_id2;
         	HttpGet request = new HttpGet(url);
 			HttpClient client = new DefaultHttpClient();
 			HttpResponse httpResponse = client.execute(request);
