@@ -58,6 +58,7 @@ public class EditGuide extends ListActivity {
 	ListView mListView;
 	
 	private static final long WEB_LIST  = 2;
+	private static final long OWN_LIST  = 1;
 
 	private static final int DIALOG_KEY = 0;
 	
@@ -204,17 +205,21 @@ public class EditGuide extends ListActivity {
             TextView n = (TextView) v.findViewById(R.id.name);
     		n.setTextColor(Color.rgb(0xea, 0xea,0x9c));
             
-            showPlace(selectId);
+            showPlace(selectId,1);
         }else{
         	webPlaces.clearSelectId();
+        	//Recuperamos clase singleton y se asignamos el sitio seleccionado
+    		SingletonDatosLista sgDatosLista = SingletonDatosLista.getInstance();
+    		
         	selectId=webPlaces.getItemId(position);
+        	sgDatosLista.setIdPlaceSelected(selectId);
         	webPlaces.setSelectId(selectId);
         	webPlaces.setViewSelectId(v);
             
             TextView n = (TextView) v.findViewById(R.id.name);
     		n.setTextColor(Color.rgb(0xea, 0xea,0x9c));
             
-            showPlace(selectId);
+            showPlace(selectId,2);
         	//places es un ArrayList<Place>
         }
         
@@ -225,11 +230,11 @@ public class EditGuide extends ListActivity {
      * Se ejecuta la nueva Actividad para mostrar el lugar
      */
     
-    private void showPlace(Long idSelected) {
+    private void showPlace(Long idSelected,int ownList) {
     	if (idSelected>=0) {
     		Intent i = new Intent(this, InfoLocation.class);
     		i.putExtra(DataFramework.KEY_ID, idSelected);
-    		i.putExtra("ownList", 1);
+    		i.putExtra("ownList", ownList);
     		i.putExtra("idSelected", idSelected);
     		this.startActivityForResult(i, ACTIVITY_SHOW);
     	}

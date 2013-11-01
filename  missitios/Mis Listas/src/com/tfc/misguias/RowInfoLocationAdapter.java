@@ -126,13 +126,14 @@ public class RowInfoLocationAdapter extends BaseAdapter {
 		
 		positionsButtons.put(lastPosition, "publish");
 		
-		try {
-			readComments();
+/*		try {
+			System.out.println("Leer comentarios aqui");
+			//readComments();
 		} catch (XmlPullParserException e) {
 			e.printStackTrace();
 		} catch (IOException e) {
 			e.printStackTrace();
-		}
+		}*/
 		
     }
     

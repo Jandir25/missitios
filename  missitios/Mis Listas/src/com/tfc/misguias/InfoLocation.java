@@ -184,7 +184,7 @@ public class InfoLocation extends ListActivity {
 			//Hay que eliminar lo de arriba si uso singleton?
 			
     		SingletonDatosLista sgDatosLista = SingletonDatosLista.getInstance();
-    		idSelected = sgDatosLista.getIdGuide();
+    		idSelected = sgDatosLista.getIdPlaceSelected();
     		ownList = sgDatosLista.getOwnList();
 			
 			
@@ -207,7 +207,7 @@ public class InfoLocation extends ListActivity {
 			    if (extras.containsKey("latitudeGPS")) mLatitudeGPS = extras.getDouble("latitudeGPS");
 				if (extras.containsKey("longitudeGPS")) mLongitudeGPS = extras.getDouble("longitudeGPS");
 	    		SingletonDatosLista sgDatosLista = SingletonDatosLista.getInstance();
-	    		idSelected = sgDatosLista.getIdGuide();
+	    		idSelected = sgDatosLista.getIdPlaceSelected();
 	    		ownList = sgDatosLista.getOwnList();
 			} else {
 				id = -1;
@@ -312,7 +312,7 @@ public class InfoLocation extends ListActivity {
 		
 		List<Map<String,?>> infoLocation = new LinkedList<Map<String,?>>();
 		Bitmap bmpImage = null;
-		if (ownList != -1){
+		if (ownList != 2){
 			if (id!=-1){
 				idSelected = (long)id;//Para el acceso desde la lista de lugares
 			}
@@ -354,8 +354,9 @@ public class InfoLocation extends ListActivity {
 		}		
 		
 		else{
-				
-		String url = "http://www.dondereciclar.com/api_info_location.php?id=" + id;
+		/*Cambios 13 de octubre 2013*/		
+		//String url = "http://www.dondereciclar.com/api_info_location.php?id=" + id;
+		String url = this.getString(R.string.ip_home_place)+idSelected;
 		HttpGet request = new HttpGet(url);
 		HttpClient client = new DefaultHttpClient();
 		HttpResponse httpResponse = client.execute(request);
@@ -371,54 +372,61 @@ public class InfoLocation extends ListActivity {
 			int eventType = x.getEventType();
 	        while (eventType != XmlPullParser.END_DOCUMENT) {
 	        	if ( eventType == XmlPullParser.START_TAG ) {
-	        		if (x.getName().equals("location")) {
-	        				        			
-	        			locTitle.setText(x.getAttributeValue(null, "group").toString());
-	        			mLatitude = x.getAttributeValue(null, "latitude");
-	        			mLongitude = x.getAttributeValue(null, "longitude");
+	        		if (x.getName().equals("marker")) {
+	        			Place nPlace = new Place();
+	        			//Type
+	        			String type_id =x.getAttributeValue(null, "type");
+	        			nPlace.setType_id(Long.parseLong(type_id));
+	        			//Icon
+	        			int idIcon = this.getResources().getIdentifier(
+	        					"com.tfc.misguias:drawable/ico_"+nPlace.getType_id()+"_on", null, null);
+	        			icoLoc.setImageResource(idIcon);
 	        			
-	        			mUserId = Integer.parseInt(x.getAttributeValue(null, "user-id"));
-	        				        			
-	        			int idGroup = this.getResources().getIdentifier(
-	        					"com.tfc.misguias:drawable/ico_"+x.getAttributeValue(null, "group_id")+"_on", null, null);
-	        			icoLoc.setImageResource(idGroup);
-	        		}
-	        		if (x.getName().equals("address")) {
-	        			infoLocation.add(RowInfoLocationAdapter.createInfoItem(this.getString(R.string.address), x.nextText()));
-	        		}
-	        		if (x.getName().equals("description")) {
-	        			infoLocation.add(RowInfoLocationAdapter.createInfoItem(this.getString(R.string.description), x.nextText()));
-	        		}
+	        			//Name
+	        			String name = x.getAttributeValue(null, "name");
+	        			String nName = new String(name.getBytes("ISO-8859-1"));
+	        			nPlace.setName(nName);
+	        			locTitle.setText(nPlace.getName());
+	        			
+	        			//Description
+	        			String description = x.getAttributeValue(null, "description");
+	        			String nDescription = new String(description.getBytes("ISO-8859-1"));
+	        			nPlace.setDescription(nDescription);
+	        			infoLocation.add(RowInfoLocationAdapter.createInfoItem(this.getString(R.string.description), nPlace.getDescription()));
+	        			//Address
+	        			String address = x.getAttributeValue(null, "address");
+	        			String nAddress = new String(address.getBytes("ISO-8859-1"));
+	        			nPlace.setAddress(nAddress);
+	        			infoLocation.add(RowInfoLocationAdapter.createInfoItem(this.getString(R.string.address), nPlace.getAddress()));
+	        			//Comment
+	        			String comment = x.getAttributeValue(null, "comment");
+	        			String nComment = new String(comment.getBytes("ISO-8859-1"));
+	        			nPlace.setComment(nComment);
+	        			infoLocation.add(RowInfoLocationAdapter.createInfoItem(this.getString(R.string.comment), nPlace.getComment()));
+	        			//Id
+	        			String id = x.getAttributeValue(null, "_id");
+	        			nPlace.setId(Long.parseLong(id));
+	        			//Latitude
+	        			String latitude =x.getAttributeValue(null, "lat");
+	        			nPlace.setLatitude(Double.parseDouble(latitude));
+	        			mLatitudeGPS =(Double.parseDouble(latitude));
+	        			//Longitude	        			 
+	        			String longitude =x.getAttributeValue(null, "lng");
+	        			nPlace.setLongitude(Double.parseDouble(longitude)); 
+	        			mLongitudeGPS=(Double.parseDouble(longitude));
+	        			//Puntuation
+	        			String puntuation =x.getAttributeValue(null, "puntuation");
+	        			nPlace.setPuntuation(Float.parseFloat(puntuation));
+	        			
+	        			//Price
+	        			String price =x.getAttributeValue(null, "price");
+	        			nPlace.setPrice(price);
+	        			adapter.addSection(this.getString(R.string.info_point), new SimpleAdapter(this, infoLocation, R.layout.list_complex,
+	        					new String[] { RowInfoLocationAdapter.INFOITEM_TITLE, RowInfoLocationAdapter.INFOITEM_INFO }, new int[] { R.id.list_complex_title, R.id.list_complex_info }));
+	        			adapter.addSection(this.getString(R.string.comments), new ArrayAdapter<String>(this,
+	        					R.layout.list_item_small, new String[] { this.getString(R.string.no_comments) }));
+	        			}
 	        		
-	        		if (x.getName().equals("image")) {
-						try {
-							httpImage = "http://www.dondereciclar.com/photos/"+x.nextText();
-							URL urlImage = new URL(httpImage);
-							URLConnection conn = urlImage.openConnection();
-							conn.connect();
-							InputStream is = conn.getInputStream();
-							BufferedInputStream bis = new BufferedInputStream(is);
-							Options opt = new Options();
-							opt.inSampleSize = 2;
-							Bitmap bm = BitmapFactory.decodeStream(bis, null, opt);
-							bis.close();
-							is.close();
-							
-							int height = HEIGHT_IMAGE;
-							int width = (HEIGHT_IMAGE * bm.getWidth()) / bm.getHeight();
-							
-							if (width>height) {
-								width = HEIGHT_IMAGE;
-								height = (HEIGHT_IMAGE * bm.getHeight()) / bm.getWidth();
-								bmpImage = Bitmap.createScaledBitmap(bm, width, height, false);
-							} else {
-								bmpImage = Bitmap.createScaledBitmap(bm, width, height, false);
-							}
-						
-						} catch (Exception e) {
-							e.printStackTrace();
-						}
-	        		}
 	        		
 	        	}
 	        	eventType = x.next();
@@ -445,8 +453,7 @@ public class InfoLocation extends ListActivity {
 		
 		int lastPosition = infoLocation.size()+1;
 		
-		adapter.addSection(this.getString(R.string.info_point), new SimpleAdapter(this, infoLocation, R.layout.list_complex,
-				new String[] { RowInfoLocationAdapter.INFOITEM_TITLE, RowInfoLocationAdapter.INFOITEM_INFO }, new int[] { R.id.list_complex_title, R.id.list_complex_info }));
+		
 		
 		if (bmpImage!=null) {
 			adapter.addSection(this.getString(R.string.image), new ImageAdapter(this, bmpImage));
