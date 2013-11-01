@@ -22,6 +22,7 @@
 	<string name="three_days_ago">3 days ago</string>
 	
 	<string name="ip_home_guide">http://192.168.1.11/misguias/places_xml.php?guide_id=</string>
+	<string name="ip_home_place">http://192.168.1.11/misguias/place_xml.php?place_id=</string>
 	<string name="ip_home_guide_images">http://192.168.1.11/misguias/FILEUPLOAD/guide_images/thumbs/</string>
 	<string name="ip_home_place_images">http://192.168.1.11/misguias/FILEUPLOAD/places_images/thumbs/</string>
 	<string name="ip_home_category">http://192.168.1.11/misguias/categories_places_xml.php?category_id=</string>

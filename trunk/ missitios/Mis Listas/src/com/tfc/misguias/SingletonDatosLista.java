@@ -8,6 +8,7 @@ public class SingletonDatosLista {
         private long IdGuide=-1;
         private int ownList=-1; 
         private long idSelected = -1;
+        private long idPlaceSelected = -1;
 
     public long getIdSelected() {
 			return idSelected;
@@ -67,4 +68,12 @@ public class SingletonDatosLista {
     public void setDate(Date date) {
         this.date = date;
     }
+
+	public long getIdPlaceSelected() {
+		return idPlaceSelected;
+	}
+
+	public void setIdPlaceSelected(long idPlaceSelected) {
+		this.idPlaceSelected = idPlaceSelected;
+	}
 }

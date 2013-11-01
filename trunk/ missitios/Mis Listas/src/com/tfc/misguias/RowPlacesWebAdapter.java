@@ -117,7 +117,8 @@ public class RowPlacesWebAdapter extends BaseAdapter {
 
 	@Override
 	public long getItemId(int position) {
-		return position;
+		Place placeSelected=elements.get(position);
+		return placeSelected.getId();
 	}
 	
     /**
