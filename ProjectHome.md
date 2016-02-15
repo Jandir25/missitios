@@ -1,0 +1,1 @@
+misSitios es una aplicación Android que gestiona los sitios que queremos guardar y nos permite localizarlos en un mapa consultar anotaciones y compartirlas con otros usuarios, así como descargar las listas de sitios de empresas o usuarios que las compartan en la red.
